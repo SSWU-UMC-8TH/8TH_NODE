@@ -1,0 +1,5 @@
+# 환경변수
+.env
+
+# 의존성
+node_modules/
