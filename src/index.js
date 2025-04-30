@@ -1,6 +1,7 @@
 // const express = require('express') -> CommonJS
 // ES Module로 변경하자
 import express from 'express'
+import cors from 'cors'
 import dotenv from "dotenv"
 // dotenv 라이브러리 => .env 파일로부터 환경 변수를 읽어들이고, 이를 process.env.객체를 통해 접근할 수 있도록 하는 역할을 한다. 
 // dotenv.config() 부분이 바로 그 동작을 하는 부분이다. 
