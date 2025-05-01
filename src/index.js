@@ -5,6 +5,7 @@ import cors from 'cors'
 import dotenv from "dotenv"
 // dotenv 라이브러리 => .env 파일로부터 환경 변수를 읽어들이고, 이를 process.env.객체를 통해 접근할 수 있도록 하는 역할을 한다. 
 // dotenv.config() 부분이 바로 그 동작을 하는 부분이다. 
+import { handleUserSignUp } from './controllers/user.controller.js';
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 });
 
-app.post("/api/users", handleUserSignup);
+app.post("/users", handleUserSignup);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
