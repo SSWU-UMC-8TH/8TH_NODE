@@ -12,3 +12,18 @@ export const bodyToUser = (body) => {
       preferences: body.preferences,
     };
   };
+
+  export const responseFromUser = ({ user, preferences }) => {
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      gender: user.gender,
+      birth: user.birth.toISOString().split('T')[0], // yyyy-mm-dd 형태로 변환
+      address: user.address,
+      detailAddress: user.detailAddress,
+      phoneNumber: user.phoneNumber,
+      preferences: preferences.map((pref) => pref.name), // 이름만 추출
+    };
+  };
+  

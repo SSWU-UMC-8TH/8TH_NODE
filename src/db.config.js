@@ -3,6 +3,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+console.log("DB 접속 정보 확인:");
+console.log("host:", process.env.DB_HOST);
+console.log("user:", process.env.DB_USER);
+console.log("pass:", `"${process.env.DB_PASSWORD}"`);
+console.log("database:", process.env.DB_NAME);
+
 export const pool = mysql.createPool({
   host: process.env.DB_HOST || "localhost", // mysql의 hostname
   user: process.env.DB_USER || "root", // user 이름
