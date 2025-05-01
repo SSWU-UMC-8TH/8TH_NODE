@@ -18,7 +18,9 @@ app.use(express.urlencoded({extended:false})); // 단순 객체 문자열 형태
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
-})
+});
+
+app.post("/api/users", handleUserSignup);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
