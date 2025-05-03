@@ -7,6 +7,7 @@ import dotenv from "dotenv"
 // dotenv.config() 부분이 바로 그 동작을 하는 부분이다. 
 import { handleUserSignUp } from './controllers/user.controller.js';
 import { handleAddStore } from './controllers/store.controller.js';
+import { handleAddReview } from './controllers/review.controller.js';
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 
 app.post("/users", handleUserSignUp);
 app.post("/regions/:regionId/stores", handleAddStore);
+app.post("/stores/:storeId/reviews", handleAddReview);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

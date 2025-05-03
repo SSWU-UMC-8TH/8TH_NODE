@@ -22,3 +22,16 @@ export const addStore = async ({name, address, regionId}) => {
         conn.release();
     }
 };
+
+export const isStoreExist = async (storeId) => {
+    const conn = await pool.getConnection();
+    try{
+        const [rows] = await conn.query(
+            `SELECT EXISTS (SELECT 1 FROM store WHERE id =?) AS isExist`, 
+            [storeId]
+        );
+        return rows[0].isExist ===1;
+    } finally {
+        conn.release();
+    }
+};
