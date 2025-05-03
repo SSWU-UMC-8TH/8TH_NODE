@@ -8,6 +8,7 @@ import dotenv from "dotenv"
 import { handleUserSignUp } from './controllers/user.controller.js';
 import { handleAddStore } from './controllers/store.controller.js';
 import { handleAddReview } from './controllers/review.controller.js';
+import {handleAddMission} from './controllers/mission.controller.js';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.get('/', (req, res) => {
 app.post("/users", handleUserSignUp);
 app.post("/regions/:regionId/stores", handleAddStore);
 app.post("/stores/:storeId/reviews", handleAddReview);
+app.post("/stores/:storeId/missions", handleAddMission);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
