@@ -14,16 +14,21 @@ export const bodyToUser = (body) => {
   };
 
   export const responseFromUser = ({ user, preferences }) => {
+    const userData = Array.isArray(user) ? user[0] : user;
+
     return {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      gender: user.gender,
-      birth: user.birth.toISOString().split('T')[0], // yyyy-mm-dd 형태로 변환
-      address: user.address,
-      detailAddress: user.detailAddress,
-      phoneNumber: user.phoneNumber,
-      preferences: preferences.map((pref) => pref.name), // 이름만 추출
+        id: userData.id,
+        email: userData.email,
+        name: userData.name,
+        gender: userData.gender,
+        birth: userData.birth,
+        address: userData.address,
+        detailAddress: userData.detail_address, // DB 컬럼명 기준
+        phoneNumber: userData.phone_number,
+        preferences: preferences.map(pref => ({
+            id: pref.food_category_id,
+            name: pref.name
+        }))
     };
-  };
+};
   
