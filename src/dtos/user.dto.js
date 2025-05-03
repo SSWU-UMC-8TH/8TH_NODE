@@ -1,5 +1,6 @@
-export const bodyToUser = (body) => {
-    const birth = new Date(body.birth);
+  // 클라이언트 -> 서버 
+  export const bodyToUser = (body) => {
+    const birth = new Date(body.birth); // 문자열 -> Date 객체로 변환
   
     return {
       email: body.email,
@@ -13,6 +14,7 @@ export const bodyToUser = (body) => {
     };
   };
 
+  // 서버 -> 클라이언트
   export const responseFromUser = ({ user, preferences }) => {
     const userData = Array.isArray(user) ? user[0] : user;
 

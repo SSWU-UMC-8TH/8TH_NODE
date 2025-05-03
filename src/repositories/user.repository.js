@@ -1,8 +1,8 @@
 import { pool } from "../db.config.js";
 
-// User 데이터 삽입
+// User 데이터 삽입 (사용자 등록)
 export const addUser = async (data) => {
-  const conn = await pool.getConnection();
+  const conn = await pool.getConnection(); // DB 연결 획득 
 
   try {
     const [confirm] = await pool.query(
@@ -10,6 +10,7 @@ export const addUser = async (data) => {
       data.email
     );
 
+    // 이미 email이 존재한다면 isExistEmail = 1이므로 종료
     if (confirm[0].isExistEmail) {
       return null;
     }
@@ -28,18 +29,19 @@ export const addUser = async (data) => {
     );
 
     return result.insertId;
+
   } catch (err) {
     throw new Error(
       `오류가 발생했어요. 요청 파라미터를 확인해주세요. (${err})`
     );
   } finally {
-    conn.release();
+    conn.release(); // DB 연결 꼭 반납하기 
   }
 };
 
 // 사용자 정보 얻기
 export const getUser = async (userId) => {
-  const conn = await pool.getConnection();
+  const conn = await pool.getConnection(); // DB 연결 획득 
 
   try {
     const [user] = await pool.query(`SELECT * FROM user WHERE id = ?;`, userId);
@@ -51,6 +53,7 @@ export const getUser = async (userId) => {
     }
 
     return user;
+
   } catch (err) {
     throw new Error(
       `오류가 발생했어요. 요청 파라미터를 확인해주세요. (${err})`
@@ -93,6 +96,7 @@ export const getUserPreferencesByUserId = async (userId) => {
     );
 
     return preferences;
+    
   } catch (err) {
     throw new Error(
       `오류가 발생했어요. 요청 파라미터를 확인해주세요. (${err})`
