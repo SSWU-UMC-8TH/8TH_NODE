@@ -1,5 +1,6 @@
 import { StatusCodes } from "http-status-codes";
-import { bodyToUser } from "../dtos/user.dto.js";
+import { bodyToStore } from "../dtos/store.dto.js";
+import { createStoreService } from "../services/store.service.js";
 
 export const handleAddStore = async (req, res, next) => {
   console.log("특정 지역에 가게 추가하기를 요청했습니다!");
@@ -7,7 +8,11 @@ export const handleAddStore = async (req, res, next) => {
 
   try{
     const regionId = req.params.regionId;
-    
+    const storeData = bodyToStore(req.body, regionId);
+
+    const newStore = await createStoreService(storeData);
+    res.status(StatusCodes.CREATED).json({result:newStore});
+
   } catch(err) {
     next(err);
   }
