@@ -2,7 +2,7 @@
   export const bodyToStore = (body) => {
   
     return {
-      email: body.name,
+      name: body.name,
       address: body.address,
       regionId: body.regionId,
     };
