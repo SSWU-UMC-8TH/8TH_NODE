@@ -1,4 +1,5 @@
 import { pool } from "../db.config.js";
+import { prisma } from "../db.config.js";
 
 // 가게 존재 여부 확인
 export const checkStoreExists = async (storeId) => {
@@ -23,4 +24,15 @@ export const addReview = async (storeId, data) => {
     } finally {
         conn.release();
     }
+};
+
+export const getAllStoreReviews = async (storeId) => {
+    const reviews = await prisma.userStoreReview.findMany({
+        select: { id: true, content: true, store: true, user: true },
+        where: { storeId: storeId, id: { gt: cursor } },
+        orderBy: { id: "asc" },
+        take: 5,
+    });
+
+    return reviews;
 };

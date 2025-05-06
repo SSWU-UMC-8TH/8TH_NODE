@@ -6,6 +6,8 @@ import { handleCreateStore } from "./controllers/store.controller.js";
 import { handleCreateReview } from "./controllers/review.controller.js";
 import { handleCreateMission } from "./controllers/mission.controller.js";
 import { handleCreateChallenge } from "./controllers/challenge.controller.js";
+import { handleListStoreReviews } from "./controllers/review.controller.js";
+
 
 dotenv.config();
 
@@ -20,6 +22,8 @@ app.use(express.urlencoded({ extended: false })); // 단순 객체 문자열 형
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
+
+app.get("/api/v1/stores/:storeId/reviews", handleListStoreReviews);
 
 app.post("/api/v1/users/signup", handleUserSignUp);
 app.post("/api/stores", handleCreateStore);
