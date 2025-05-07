@@ -7,6 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// 사용자 정보 
 model User {
   id            Int      @id @default(autoincrement())
   email         String   @unique(map: "email") @db.VarChar(255)
@@ -17,5 +18,30 @@ model User {
   detailAddress String?  @map("detail_address") @db.VarChar(255)
   phoneNumber   String   @map("phone_number") @db.VarChar(15)
 
+  userFavorCategories UserFavorCategory[] // 1:N 관계 (한 유저는 여러 선호 카테고리 가능)
+
   @@map("user")
+}
+
+ // 음식 카테고리 정보 
+model FoodCategory {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(100)
+
+  userFavorCategories UserFavorCategory[] // 1:N 관계 (하나의 카테고리를 여러 유저가 선호 가능)
+
+  @@map("food_category")
+}
+
+// 사용자와 음식 카테고리 간의 다대다(N:M) 관계를 나타내는 중간 테이블 
+model UserFavorCategory {
+  id             Int          @id @default(autoincrement())
+  user           User         @relation(fields: [userId], references: [id])
+  userId         Int          @map("user_id")
+  foodCategory   FoodCategory @relation(fields: [foodCategoryId], references: [id])
+  foodCategoryId Int          @map("food_category_id")
+
+  @@index([foodCategoryId], map: "f_category_id")
+  @@index([userId], map: "user_id")
+  @@map("user_favor_category")
 }

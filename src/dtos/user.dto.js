@@ -16,21 +16,14 @@
 
   // 서버 -> 클라이언트
   export const responseFromUser = ({ user, preferences }) => {
-    const userData = Array.isArray(user) ? user[0] : user;
-
+    const preferFoods = preferences.map(
+      (preference) => preference.foodCategory.name
+    );
+  
     return {
-        id: userData.id,
-        email: userData.email,
-        name: userData.name,
-        gender: userData.gender,
-        birth: userData.birth,
-        address: userData.address,
-        detailAddress: userData.detail_address, // DB 컬럼명 기준
-        phoneNumber: userData.phone_number,
-        preferences: preferences.map(pref => ({
-            id: pref.food_category_id,
-            name: pref.name
-        }))
+      email: user.email,
+      name: user.name,
+      preferCategory: preferFoods,
     };
-};
+  };
   

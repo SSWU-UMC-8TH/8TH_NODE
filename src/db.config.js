@@ -1,8 +1,12 @@
 // 데이터베이스 연결할 때 사용하는 파일 
 import dotenv from "dotenv";
 import mysql from "mysql2/promise";
+import { PrismaClient } from "@prisma/client";
 
 dotenv.config();
+
+//export const prisma = new PrismaClient();
+export const prisma = new PrismaClient({ log: ["query"] });
 
 export const pool = mysql.createPool({
   host: process.env.DB_HOST || "localhost", // mysql의 hostname
