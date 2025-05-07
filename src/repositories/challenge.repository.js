@@ -28,3 +28,34 @@ export const addChallenge = async (userId, missionId) => {
     });
     return challenge.id;
 };
+
+// 내가 진행 중인 미션 목록
+export const getChallengesByUserId = async (userId) => {
+    return await prisma.userMission.findMany({
+        where: {
+            userId,
+            status: "in_progress", // 진행 중인 미션만 필터링
+        },
+        select: {
+            id: true,
+            createdAt: true,
+            mission: {
+                select: {
+                    id: true,
+                    reward: true,
+                    missionSpec: true,
+                    deadline: true,
+                    store: {
+                        select: {
+                            id: true,
+                            name: true,
+                        },
+                    },
+                },
+            },
+        },
+        orderBy: {
+            createdAt: "desc",
+        },
+    });
+};
