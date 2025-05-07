@@ -42,3 +42,19 @@ export const getUserPreferencesByUserId = async (userId) => {
 
   return preferences;
 };
+
+export const getAllStoreReviews = async (storeId, cursor) => {
+  const reviews = await prisma.userStoreReview.findMany({
+    select: {
+      id: true,
+      content: true,
+      store: true,
+      user: true,
+    },
+    where: { storeId: storeId, id: { gt: cursor } },
+    orderBy: { id: "asc" },
+    take: 5, // 최대 5개씩 불러오겠다는 소리 
+  });
+
+  return reviews;
+};
