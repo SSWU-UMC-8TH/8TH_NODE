@@ -4,7 +4,7 @@ import express from "express";
 import { handleUserSignUp } from "./controllers/user.controller.js";
 import { handleCreateStore } from "./controllers/store.controller.js";
 import { handleCreateMission, handleListStoreMissions } from "./controllers/mission.controller.js";
-import { handleCreateChallenge, handleListUserChallenges } from "./controllers/challenge.controller.js";
+import { handleCreateChallenge, handleListUserChallenges, handleCompleteChallenge } from "./controllers/challenge.controller.js";
 import { handleCreateReview, handleListStoreReviews, handleListUserReviews } from "./controllers/review.controller.js";
 
 
@@ -26,6 +26,8 @@ app.get("/api/v1/stores/:storeId/reviews", handleListStoreReviews);     // 가�
 app.get("/api/v1/users/:userId/reviews", handleListUserReviews);        // 내가 작성한 리뷰 목록
 app.get("/api/v1/stores/:storeId/missions", handleListStoreMissions);   // 특정 가게의 미션 목록
 app.get("/api/v1/users/:userId/challenges", handleListUserChallenges);  //  내가 진행 중인 미션 목록
+
+app.patch("/api/v1/challenges/:challengeId/complete", handleCompleteChallenge); // 내가 진행 중인 미션을 진행 완료로 바꾸기
 
 app.post("/api/v1/users/signup", handleUserSignUp);
 app.post("/api/stores", handleCreateStore);

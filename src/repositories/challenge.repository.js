@@ -59,3 +59,12 @@ export const getChallengesByUserId = async (userId) => {
         },
     });
 };
+
+// 진행 중인 미션을 진행 완료로 바꾸기
+export const completeChallenge = async (challengeId) => {
+    const updated = await prisma.userMission.update({
+        where: { id: challengeId },
+        data: { status: "completed" },
+    });
+    return updated.id;
+};
