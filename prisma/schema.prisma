@@ -18,6 +18,7 @@ model User {
   detailAddress String?  @map("detail_address") @db.VarChar(255)
   phoneNumber   String   @map("phone_number") @db.VarChar(15)
 
+  UserStoreReviews UserStoreReview[] // 1:N, 유저가 작성한 리뷰들 
   userFavorCategories UserFavorCategory[] // 1:N 관계 (한 유저는 여러 선호 카테고리 가능)
 
   @@map("user")
@@ -44,4 +45,28 @@ model UserFavorCategory {
   @@index([foodCategoryId], map: "f_category_id")
   @@index([userId], map: "user_id")
   @@map("user_favor_category")
+}
+
+// store 테이블 
+model Store {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(100)
+
+  reviews UserStoreReview[] // 1:N 관계에서 "N"을 가진 쪽
+
+  @@map("store")
+}
+
+// user_store_review 테이블 
+model UserStoreReview {
+  id Int @id @default(autoincrement())
+  store Store @relation(fields : [storeId], references : [id])
+  storeId Int @map("store_id")
+
+  user User @relation(fields:[userId], references:[id])
+  userId Int @map("user_id")
+
+  content String @db.Text
+
+  @@map("user_store_review")
 }
