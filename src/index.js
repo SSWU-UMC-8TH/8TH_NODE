@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import { handleUserSignUp } from "./controllers/user.controller.js";
 import { handleCreateStore } from "./controllers/store.controller.js";
-import { handleCreateMission } from "./controllers/mission.controller.js";
+import { handleCreateMission, handleListStoreMissions } from "./controllers/mission.controller.js";
 import { handleCreateChallenge } from "./controllers/challenge.controller.js";
 import { handleCreateReview, handleListStoreReviews, handleListUserReviews } from "./controllers/review.controller.js";
 
@@ -24,6 +24,7 @@ app.get("/", (req, res) => {
 
 app.get("/api/v1/stores/:storeId/reviews", handleListStoreReviews);
 app.get("/api/v1/users/:userId/reviews", handleListUserReviews);
+app.get("/api/v1/stores/:storeId/missions", handleListStoreMissions);
 
 app.post("/api/v1/users/signup", handleUserSignUp);
 app.post("/api/stores", handleCreateStore);

@@ -18,3 +18,17 @@ export const addMission = async (storeId, data) => {
     });
     return mission.id;
 };
+
+// 가게 미션 조회
+export const getMissionsByStoreId = async (storeId) => {
+    return await prisma.mission.findMany({
+        where: { storeId },
+        orderBy: { id: "asc" },
+        select: {
+            id: true,
+            reward: true,
+            deadline: true,
+            missionSpec: true,
+        },
+    });
+};
