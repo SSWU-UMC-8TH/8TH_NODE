@@ -1,6 +1,4 @@
-import { PrismaClient } from '../generated/prisma/index.js';
-const prisma = new PrismaClient();
-import { pool } from "../db.config.js";
+import { prisma } from "../db.config.js";
 
 // User 데이터 삽입
 export const addUser = async (data) => {
