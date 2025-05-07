@@ -30,10 +30,10 @@ app.get("/api/v1/users/:userId/challenges", handleListUserChallenges);  //  내�
 app.patch("/api/v1/challenges/:challengeId/complete", handleCompleteChallenge); // 내가 진행 중인 미션을 진행 완료로 바꾸기
 
 app.post("/api/v1/users/signup", handleUserSignUp);
-app.post("/api/stores", handleCreateStore);
-app.post("/api/stores/:storeId/reviews", handleCreateReview);
-app.post("/api/stores/:storeId/missions", handleCreateMission);
-app.post("/api/missions/:missionId/challenges", handleCreateChallenge);
+app.post("/api/v1/stores", handleCreateStore);
+app.post("/api/v1/stores/:storeId/reviews", handleCreateReview);
+app.post("/api/v1/stores/:storeId/missions", handleCreateMission);
+app.post("/api/v1/missions/:missionId/challenges", handleCreateChallenge);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
