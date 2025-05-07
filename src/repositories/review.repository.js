@@ -19,7 +19,7 @@ export const addReview = async (storeId, data) => {
     return review.id;
 };
 
-// 리뷰 가져오기
+// 특정 가게 리뷰 가져오기
 export const getAllStoreReviews = async (storeId, cursor = 0) => {
     const reviews = await prisma.userStoreReview.findMany({
         select: { id: true, content: true, store: true, user: true },
@@ -28,4 +28,31 @@ export const getAllStoreReviews = async (storeId, cursor = 0) => {
         take: 5,
     });
     return reviews;
+};
+
+// 특정 유저가 작성한 리뷰 가져오기
+export const getUserReviews = async (userId, cursor = 0) => {
+    return await prisma.userStoreReview.findMany({
+        select: {
+            id: true,
+            content: true,
+            score: true,
+            store: {
+                select: {
+                    id: true,
+                    name: true,
+                },
+            },
+        },
+        where: {
+            userId,
+            id: {
+                gt: cursor,
+            },
+        },
+        orderBy: {
+            id: "asc",
+        },
+        take: 5,
+    });
 };
