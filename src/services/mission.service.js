@@ -1,4 +1,4 @@
-import { checkStoreExists, addMission } from "../repositories/mission.repository.js";
+import { checkStoreExistsForMission as checkStoreExists, addMission } from "../repositories/mission.repository.js";
 
 export const createMission = async (storeId, missionData) => {
     const exists = await checkStoreExists(storeId);
