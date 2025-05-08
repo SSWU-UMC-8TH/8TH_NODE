@@ -1,37 +1,28 @@
-// 새로운 가게를 DB에 INSERT하고, 삽입된 가게의 정보를 객체로 반환하는 저장소 역할 
+import { prisma } from "../db.config.js";
 
-import { pool } from "../db.config.js";
-
-// storeData를 받아서, 가게를 등록하는 함수 
-export const addStore = async ({name, address, regionId}) => {
-    const conn = await pool.getConnection(); // DB 연결 
-
-    try{
-        const [result] = await conn.query(
-            `INSERT INTO store (region_id, name, address) VALUES(?,?,?)`,
-            [regionId, name, address]
-        );
-
-        return {
-            id: result.insertId,
+// 새로운 가게 DB에 INSERT하고, 삽입된 정보를 객체로 반환 
+export const addStore = async({name, address, regionId}) => {
+    const createdStore = await prisma.store.create({
+        data: {
             name,
             address,
             regionId,
-        };
-    } finally {
-        conn.release();
-    }
+        },
+    });
+    return {
+        id: createdStore.id,
+        name: createdStore.name,
+        address: createdStore.address,
+        regionId : createdStore.regionId,
+    };
 };
 
-export const isStoreExist = async (storeId) => {
-    const conn = await pool.getConnection();
-    try{
-        const [rows] = await conn.query(
-            `SELECT EXISTS (SELECT 1 FROM store WHERE id =?) AS isExist`, 
-            [storeId]
-        );
-        return rows[0].isExist ===1;
-    } finally {
-        conn.release();
-    }
+
+// 특정 가게 ID가 존재하는지 확인
+export const isStoreExist = async(storeId) => {
+    const store = await prisma.store.findUnique({
+        where:{id:storeId},
+        select : {id:true}, 
+    });
+    return !!store;
 };

@@ -1,47 +1,36 @@
-import { pool } from "../db.config.js";
+import { prisma } from "../db.config.js";
 
 export const addChallenge = async ({userId, missionId}) => {
-    const conn = await pool.getConnection(); // DB 연결 
-
-    try{
-        const [result] = await conn.query(
-            `INSERT INTO user_mission (user_id, mission_id, status) VALUES(?,?,?)`,
-            [userId, missionId, 'IN_PROGRESS']
-        );
-
-        return {
-            id: result.insertId,
-            userId,
+    const createdChallenge = await prisma.userMission.create({
+        data:{
+            userId, 
             missionId,
-            status:"IN_PROGRESS"
-        };
-    } finally {
-        conn.release();
-    }
+            status:"IN_PROGRESS",
+        },
+    });
+    return {
+        id:createdChallenge.id,
+        userId: createdChallenge.userId,
+        missionId: createdChallenge.missionId,
+        status : createdChallenge.status
+    };
 };
 
-export const isAlreadyChallenged = async (userId, missionId) => {
-    const conn = await pool.getConnection();
-    try{
-        const [rows] = await conn.query(
-            `SELECT EXISTS (SELECT 1 FROM user_mission WHERE user_id=? AND mission_id =?) AS isExist`,
-            [userId, missionId]
-        );
-        return rows[0].isExist ===1;
-    } finally{
-        conn.release();
-    }
-}
+export const isAlreadyChallenged = async({userId, missionId}) => {
+    const challenge = await prisma.userMission.findFirst({
+        where:{
+            userId,
+            missionId,
+        },
+        select: {id:true},
+    });
+    return !!challenge;
+};
 
-export const isMissionExist = async (missionId) => {
-    const conn = await pool.getConnection();
-
-    try{
-        const [rows] = await conn.query (
-            `SELECT EXISTS (SELECT 1 FROM mission WHERE id=?) AS isExist`, [missionId]
-        );
-        return rows[0].isExist ===1;
-    } finally {
-        conn.release();
-    }
-}
+export const isMissionExist = async(missionId) => {
+    const mission = await prisma.userMission.findUnique({
+        where: {id:missionId},
+        select: {id:true},
+    });
+    return !!mission;
+};

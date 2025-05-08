@@ -19,6 +19,8 @@ model User {
   phoneNumber   String   @map("phone_number") @db.VarChar(15)
 
   userFavorCategories UserFavorCategory[]
+  reviews Review[]
+  userMissions UserMission[]
 
   @@map("user")
 }
@@ -46,4 +48,72 @@ model UserFavorCategory {
     @@index([userId], map:"user_id")
 
     @@map("user_favor_category")
+}
+
+// store 테이블 
+model Store {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(100)
+  address String @db.VarChar(255)
+  regionId Int @map("region_id")
+
+  region Region @relation(fields: [regionId], references:[id])
+
+  reviews Review[]
+  missions Mission[]
+
+  @@map("store")
+}
+
+// region 테이블 
+model Region {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(20)
+
+  stores Store[] // 1:N 관계 (store가 N)
+
+  @@map("region")
+}
+
+// review 테이블
+model Review {
+  id Int @id @default(autoincrement())
+  userId Int @map("user_id")
+  storeId Int @map("store_id")
+  body String @db.Text
+  score Int
+
+  user User @relation(fields:[userId], references:[id])
+  store Store @relation(fields:[storeId], references:[id])
+
+  @@map("review")
+}
+
+// mission 테이블 
+model Mission {
+  id Int @id @default(autoincrement())
+  storeId Int @map("store_id")
+  reward Int
+  deadline DateTime
+  missionSpec String @map("mission_spec") @db.Text
+  
+  store Store @relation(fields:[storeId], references:[id])
+
+  userMissions UserMission[]
+
+  @@map("mission")
+}
+
+// user_mission 테이블 
+model UserMission {
+  id Int @id @default(autoincrement())
+  userId Int @map("user_id")
+  missionId Int @map("mission_id")
+  status String @default("IN_PROGRESS") @db.VarChar(15)
+
+  user User @relation(fields:[userId], references:[id])
+  mission Mission @relation(fields:[missionId], references:[id])
+
+  @@unique([userId, missionId]) // 한 유저가 동일 미션에 여러 번 도전 못 하게 
+  @@map("user_mission")
 }

@@ -1,22 +1,20 @@
-import { pool } from "../db.config.js";
+import { prisma } from "../db.config.js";
 
-export const addMission = async ({reward, missionSpec, storeId, deadline}) => {
-    const conn = await pool.getConnection(); // DB 연결 
-
-    try{
-        const [result] = await conn.query(
-            `INSERT INTO mission (store_id, reward, deadline, mission_spec) VALUES(?,?,?,?)`,
-            [storeId, reward, deadline, missionSpec]
-        );
-
-        return {
-            id: result.insertId,
-            storeId,
+export const addMission = async ({reward, missionSpec, missionId, deadline}) => {
+    const createdMission = await prisma.mission.create({
+        data:{
+            storeId, 
             reward,
             deadline,
-            missionSpec
-        };
-    } finally {
-        conn.release();
-    }
+            missionSpec,
+        },
+    });
+
+    return {
+        id : createdMission.id,
+        storeId: createdMission.storeId,
+        reward: createdMission.reward,
+        deadline: createdMission.deadline,
+        missionSpec: createdMission.missionSpec,
+    };
 };

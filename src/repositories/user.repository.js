@@ -1,4 +1,4 @@
-import { pool } from "../db.config.js";
+import { prisma } from "../db.config.js";
 
 // User 데이터 삽입 (사용자 등록)
 export const addUser = async (data) => {
