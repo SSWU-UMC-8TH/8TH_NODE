@@ -1,20 +1,17 @@
-export const bodyToReview = (body) => {
-    return {
-      user_id: body.user_id,
-      store_id: body.store_id,
-      body: body.body,
-      score: body.score,
-    };
-  };
+// 리뷰 목록 응답 포맷
+export const responseFromUserReview = (review) => {
+  return {
+    reviewId: review.id,
+    content: review.content,
+    rating: review.rating,
+    createdAt: review.createdAt,
+    storeName: review.store?.name || null,
+    images: review.images?.map((img) => img.imageUrl) || [],
   
-  export const responseFromReview = (review) => {
-    return {
-      id: review.id,
-      user_id: review.user_id,
-      store_id: review.store_id,
-      body: review.body,
-      score: review.score,
-      createdAt: review.created_at,
-    };
   };
-  
+};
+
+// 여러 리뷰 리스트 변환
+export const responseListFromUserReviews = (reviews) => {
+  return reviews.map(responseFromUserReview);
+};

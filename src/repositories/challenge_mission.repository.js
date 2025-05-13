@@ -1,21 +1,24 @@
-import { pool } from "../db.config.js";
+import { prisma } from "../db.config.js";
 
-export async function isAlreadyChallenging(userId, missionId) {
-  const [rows] = await pool.query(
-    `SELECT * FROM user_mission WHERE user_id = ? AND mission_id = ?`,
-    [userId, missionId]
-  );
-  return rows.length > 0;
-}
+// 미션 중복 도전 여부 확인
+export const isAlreadyChallenging = async (userId, missionId) => {
+  const challenge = await prisma.userMission.findFirst({
+    where: { userId, missionId },
+  });
+  return challenge !== null;
+};
 
-export async function addChallengeMission({ userId, missionId }) {
-  const [result] = await pool.query(
-    `INSERT INTO user_mission (user_id, mission_id) VALUES (?, ?)`,
-    [userId, missionId]
-  );
+// 미션 도전하기
+export const addChallengeMission = async ({ userId, missionId }) => {
+  const result = await prisma.userMission.create({
+    data: {
+      userId,
+      missionId,
+    },
+  });
   return {
-    id: result.insertId,
+    id: result.id,
     userId,
-    missionId
+    missionId,
   };
-}
+};
