@@ -26,3 +26,4 @@ export const isStoreExist = async(storeId) => {
     });
     return !!store;
 };
+

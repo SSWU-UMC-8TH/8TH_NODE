@@ -17,3 +17,14 @@ export const handleAddStore = async (req, res, next) => {
     next(err);
   }
 };
+
+// 특정 가게의 리뷰 목록을 클라이언트에게 응답해주는 API 핸들러 
+export const handleListStoreReviews = async (req, res, next) => {
+  console.log("특정 가게의 리뷰 목록을 요청했습니다.");
+
+  const reviews = await listStoreReviews(
+    parseInt(req.params.storeId),
+    typeof req.query.cursor === "string" ? parseInt(req.query.cursor) :0
+  );
+  res.status(StatusCodes.OK).success(reviews);
+};
