@@ -25,6 +25,7 @@ model User {
 
   userFavorCategories UserFavorCategory[]
   UserStoreReview     UserStoreReview[]
+  UserMission         UserMission[]
 
   @@map("user")
 }
@@ -61,6 +62,7 @@ model Store {
   category         FoodCategory      @relation(fields: [categoryId], references: [id])
   userStoreReviews UserStoreReview[]
   Region           Region?           @relation(fields: [regionId], references: [id])
+  Mission          Mission[]
 }
 
 model UserStoreReview {
@@ -80,4 +82,26 @@ model Region {
   stores    Store[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Mission {
+  id          Int      @id @default(autoincrement())
+  storeId     Int
+  reward      String
+  deadline    DateTime
+  missionSpec String
+
+  store       Store         @relation(fields: [storeId], references: [id])
+  UserMission UserMission[]
+}
+
+model UserMission {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  missionId Int
+  status    String   @default("in_progress")
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  mission Mission @relation(fields: [missionId], references: [id])
 }

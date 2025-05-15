@@ -4,7 +4,7 @@ import { createChallenge, listUserChallenges, completeChallenge } from "../servi
 
 export const handleCreateChallenge = async (req, res) => {
     try {
-        const missionId = req.params.missionId;
+        const missionId = parseInt(req.params.missionId);
         const { userId } = bodyToChallenge(req.body);
         const id = await createChallenge(missionId, userId);
         res.status(StatusCodes.CREATED).json({ id });
