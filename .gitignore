@@ -7,3 +7,6 @@ node_modules/
 
 # http 테스트
 api_test.http
+
+# 설정
+src/generated/
