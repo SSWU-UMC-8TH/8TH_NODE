@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -35,6 +34,7 @@ model FoodCategory {
   name String @db.VarChar(100)
 
   userFavorCategories UserFavorCategory[]
+  Store               Store[]
 
   @@map("food_category")
 }
@@ -52,10 +52,15 @@ model UserFavorCategory {
 }
 
 model Store {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(100)
-
-  userStoreReviews UserStoreReview[] // 1:N 관계 설정
+  id               Int               @id @default(autoincrement())
+  name             String
+  address          String
+  regionId         Int?
+  categoryId       Int
+  score            Int               @default(0)
+  category         FoodCategory      @relation(fields: [categoryId], references: [id])
+  userStoreReviews UserStoreReview[]
+  Region           Region?           @relation(fields: [regionId], references: [id])
 }
 
 model UserStoreReview {
@@ -63,7 +68,16 @@ model UserStoreReview {
   storeId Int
   userId  Int
   content String @db.Text
+  score   Int    @default(0)
 
   store Store @relation(fields: [storeId], references: [id], onDelete: Restrict, onUpdate: Cascade)
   user  User  @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+}
+
+model Region {
+  id        Int      @id @default(autoincrement())
+  name      String
+  stores    Store[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

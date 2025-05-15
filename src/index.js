@@ -3,10 +3,9 @@ import dotenv from "dotenv";
 import express from "express";
 import { handleUserSignUp } from "./controllers/user.controller.js";
 import { handleCreateStore } from "./controllers/store.controller.js";
-import { handleCreateReview } from "./controllers/review.controller.js";
-import { handleCreateMission } from "./controllers/mission.controller.js";
-import { handleCreateChallenge } from "./controllers/challenge.controller.js";
-import { handleListStoreReviews } from "./controllers/review.controller.js";
+import { handleCreateMission, handleListStoreMissions } from "./controllers/mission.controller.js";
+import { handleCreateChallenge, handleListUserChallenges, handleCompleteChallenge } from "./controllers/challenge.controller.js";
+import { handleCreateReview, handleListStoreReviews, handleListUserReviews } from "./controllers/review.controller.js";
 
 
 dotenv.config();
@@ -23,13 +22,18 @@ app.get("/", (req, res) => {
     res.send("Hello World!");
 });
 
-app.get("/api/v1/stores/:storeId/reviews", handleListStoreReviews);
+app.get("/api/v1/stores/:storeId/reviews", handleListStoreReviews);     // 가게의 리뷰 목록
+app.get("/api/v1/users/:userId/reviews", handleListUserReviews);        // 내가 작성한 리뷰 목록
+app.get("/api/v1/stores/:storeId/missions", handleListStoreMissions);   // 특정 가게의 미션 목록
+app.get("/api/v1/users/:userId/challenges", handleListUserChallenges);  //  내가 진행 중인 미션 목록
+
+app.patch("/api/v1/challenges/:challengeId/complete", handleCompleteChallenge); // 내가 진행 중인 미션을 진행 완료로 바꾸기
 
 app.post("/api/v1/users/signup", handleUserSignUp);
-app.post("/api/stores", handleCreateStore);
-app.post("/api/stores/:storeId/reviews", handleCreateReview);
-app.post("/api/stores/:storeId/missions", handleCreateMission);
-app.post("/api/missions/:missionId/challenges", handleCreateChallenge);
+app.post("/api/v1/stores", handleCreateStore);
+app.post("/api/v1/stores/:storeId/reviews", handleCreateReview);
+app.post("/api/v1/stores/:storeId/missions", handleCreateMission);
+app.post("/api/v1/missions/:missionId/challenges", handleCreateChallenge);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `store` ADD COLUMN `score` INTEGER NOT NULL DEFAULT 0;

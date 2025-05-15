@@ -3,5 +3,6 @@ export const bodyToStore = (body) => {
         name: body.name,
         address: body.address,
         regionId: body.regionId,
+        categoryId: body.categoryId,
     };
 };

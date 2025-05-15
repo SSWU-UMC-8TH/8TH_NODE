@@ -2,6 +2,8 @@ import {
     checkMissionExists,
     checkDuplicateChallenge,
     addChallenge,
+    getChallengesByUserId,
+    completeChallenge as completeChallengeRepo
 } from "../repositories/challenge.repository.js";
 
 export const createChallenge = async (missionId, userId) => {
@@ -17,4 +19,12 @@ export const createChallenge = async (missionId, userId) => {
 
     const challengeId = await addChallenge(userId, missionId);
     return challengeId;
+};
+
+export const listUserChallenges = async (userId) => {
+    return await getChallengesByUserId(userId);
+};
+
+export const completeChallenge = async (challengeId) => {
+    return await completeChallengeRepo(challengeId);
 };
