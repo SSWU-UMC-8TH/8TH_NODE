@@ -13,6 +13,7 @@ export const addStore = async (data) => {
             regionId: data.regionId,
             name: data.name,
             address: data.address,
+            categoryId: data.categoryId,
         },
     });
     return store.id;

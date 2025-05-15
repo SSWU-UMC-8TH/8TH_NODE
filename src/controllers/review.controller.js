@@ -4,7 +4,7 @@ import { createReview, listStoreReviews, listUserReviews } from "../services/rev
 
 export const handleCreateReview = async (req, res) => {
     try {
-        const storeId = req.params.storeId;
+        const storeId = parseInt(req.params.storeId);
         const reviewData = bodyToReview(req.body);
         const id = await createReview(storeId, reviewData);
         res.status(StatusCodes.CREATED).json({ id });

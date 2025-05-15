@@ -4,7 +4,7 @@ import { createMission, listStoreMissions } from "../services/mission.service.js
 
 export const handleCreateMission = async (req, res) => {
     try {
-        const storeId = req.params.storeId;
+        const storeId = parseInt(req.params.storeId);
         const missionData = bodyToMission(req.body);
         const id = await createMission(storeId, missionData);
         res.status(StatusCodes.CREATED).json({ id });
