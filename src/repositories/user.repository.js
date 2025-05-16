@@ -9,6 +9,7 @@ export const addUser = async (data) => {
   }
   
   const created = await prisma.user.create({data:data});
+
   return created.id;
 };
 
@@ -59,3 +60,4 @@ export const getAllStoreReviews = async (storeId, cursor) => {
   });
   return reviews;
 };
+

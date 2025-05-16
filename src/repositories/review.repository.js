@@ -18,24 +18,25 @@ export const addReview = async({userId, review, score, storeId}) => {
     };
 };
 
-export const showMyReview = async(userId) => {
-    return await prisma.review.findMany({
+export const getReviewsByUserId = async({userId}) => {
+    const userReviews = await prisma.review.findMany({
         where:{userId},
-        select: {
+        select:{
             id:true,
-            storeId:true,
             body:true,
             score:true,
-            createdAt:true,
+            createdAt : true,
             store:{
                 select:{
                     name:true,
-                    address:true
-                }
-            }
+                    address:true,
+                },
+            },
         },
         orderBy:{
             createdAt:"desc",
-        }
-    })
+        },
+    });
+
+    return userReviews;
 }
