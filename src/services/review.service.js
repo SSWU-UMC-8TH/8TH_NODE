@@ -1,4 +1,4 @@
-import { addReview } from "../repositories/review.respository.js";
+import { addReview } from "../repositories/review.repository.js";
 import { isStoreExist } from "../repositories/store.repository.js"; 
 
 export const createReviewService = async (storeId, reviewData) => {
