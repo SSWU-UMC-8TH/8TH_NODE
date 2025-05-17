@@ -2,6 +2,9 @@ import { checkStoreExists, addReview } from "../repositories/review.repository.j
 import { getAllStoreReviews, getUserReviews } from "../repositories/review.repository.js";
 
 import { responseFromReviews } from "../dtos/review.dto.js";
+import { UserNotFoundError, InvalidUserIdFormatError } from "../errors.js";
+import { prisma } from "../db.config.js";
+
 
 export const createReview = async (storeId, reviewData) => {
     const exists = await checkStoreExists(storeId);
@@ -21,6 +24,12 @@ export const listStoreReviews = async (storeId) => {
 
 // 특정 사용자가 작성한 리뷰 조회
 export const listUserReviews = async (userId, cursor = 0) => {
+    // 존재하는 사용자인지 확인
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+        throw new UserNotFoundError();
+    }
+
     const reviews = await getUserReviews(userId, cursor);
     return responseFromReviews(reviews);
 };

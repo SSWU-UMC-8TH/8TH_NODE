@@ -5,6 +5,8 @@ import {
     getChallengesByUserId,
     completeChallenge as completeChallengeRepo
 } from "../repositories/challenge.repository.js";
+import { CompletedMissionError, ChallengeNotFoundError } from "../errors.js";
+import { prisma } from "../db.config.js"
 
 export const createChallenge = async (missionId, userId) => {
     const missionExists = await checkMissionExists(missionId);
@@ -26,5 +28,17 @@ export const listUserChallenges = async (userId) => {
 };
 
 export const completeChallenge = async (challengeId) => {
+    const challenge = await prisma.userMission.findUnique({
+        where: { id: challengeId },
+    });
+
+    if (!challenge) {
+        throw new ChallengeNotFoundError();
+    }
+
+    if (challenge.status === "completed") {
+        throw new CompletedMissionError();
+    }
+
     return await completeChallengeRepo(challengeId);
 };

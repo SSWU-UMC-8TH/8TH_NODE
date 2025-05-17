@@ -62,6 +62,7 @@ app.use((err, req, res, next) => {
         errorCode: err.errorCode || "unknown",
         reason: err.reason || err.message || null,
         data: err.data || null,
+        statusCode: err.statusCode || null,
     });
 });
 
