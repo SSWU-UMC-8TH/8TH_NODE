@@ -17,18 +17,18 @@ export const handleListUserChallenges = async (req, res) => {
     try {
         const userId = parseInt(req.params.userId);
         const challenges = await listUserChallenges(userId);
-        res.status(StatusCodes.OK).json(challenges);
+        res.status(StatusCodes.OK).success(challenges);
     } catch (err) {
         res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
     }
 };
 
-export const handleCompleteChallenge = async (req, res) => {
+export const handleCompleteChallenge = async (req, res, next) => {
     try {
         const challengeId = parseInt(req.params.challengeId);
         const id = await completeChallenge(challengeId);
-        res.status(StatusCodes.OK).json({ id, message: "도전이 완료되었습니다." });
+        res.status(StatusCodes.OK).success({ id, message: "미션이 완료되었습니다." });
     } catch (err) {
-        res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
+        next(err);
     }
 };
