@@ -26,6 +26,7 @@ app.get('/', (req, res) => {
 
 // GET
 app.get("/users/:userId/reviews", handleShowMyReview);
+app.get("/stores/:stordId/missions", handleShowStoreMission);
 
 // POST
 app.post("/users", handleUserSignUp);

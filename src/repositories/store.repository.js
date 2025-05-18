@@ -27,3 +27,20 @@ export const isStoreExist = async(storeId) => {
     return !!store;
 };
 
+export const getMissionsByStoreId = async(storeId) => {
+    const missions = await prisma.mission.findMany({
+        where:{
+            storeId:storeId,
+        },
+        orderBy:{
+            createdAt:"desc",
+        },
+        select:{
+            id:true,
+            reward:true,
+            deadline:true,
+            missionSpec:true,
+        }
+    });
+    return missions;
+}

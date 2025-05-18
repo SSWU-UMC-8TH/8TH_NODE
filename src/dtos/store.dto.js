@@ -17,3 +17,8 @@
     };
   };
 
+export const responseFromMissions = (missions) => {
+  return {
+    data:missions,
+  }
+}
