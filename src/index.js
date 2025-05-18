@@ -9,6 +9,8 @@ import { handleUserSignUp } from './controllers/user.controller.js';
 import { handleAddStore } from './controllers/store.controller.js';
 import { handleAddReview, handleShowMyReview } from './controllers/review.controller.js';
 import {handleAddMission} from './controllers/mission.controller.js';
+import { handleShowStoreMission } from './controllers/store.controller.js';
+import { handleUserChallengeList } from './controllers/challenges.controller.js';
 
 dotenv.config();
 
@@ -27,6 +29,7 @@ app.get('/', (req, res) => {
 // GET
 app.get("/users/:userId/reviews", handleShowMyReview);
 app.get("/stores/:stordId/missions", handleShowStoreMission);
+app.get("/users/:userId/challenges", handleUserChallengeList);
 
 // POST
 app.post("/users", handleUserSignUp);

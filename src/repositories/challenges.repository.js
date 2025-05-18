@@ -34,3 +34,32 @@ export const isMissionExist = async(missionId) => {
     });
     return !!mission;
 };
+
+export const getChallengesByUserId = async(userId) => {
+    return await prisma.userMission.findMany({
+        where:{
+            userId:userId,
+            status:"IN_PROGRESS",
+        },
+        orderBy:{
+            createdAt:"desc",
+        },
+        include:{
+            mission:{
+                select:{
+                    id:true,
+                    reward:true,
+                    deadline:true,
+                    missionSpec:true,
+                    store:{
+                        select:{
+                            id:true,
+                            name:true,
+                            address:true,
+                        }
+                    }
+                }
+            }
+        }
+    })
+}

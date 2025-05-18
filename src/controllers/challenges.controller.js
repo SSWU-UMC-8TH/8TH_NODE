@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { bodyToChallenge } from "../dtos/challenges.dto.js";
 import { createMissionChallenge } from "../services/challenges.service.js";
+import { getUserChallenges } from "../services/challenges.service.js";
 
 export const handleAddChallenge = async (req, res, next) => {
     try {
@@ -14,3 +15,14 @@ export const handleAddChallenge = async (req, res, next) => {
         next(err);
     }
 };
+
+export const handleUserChallengeList = async(req, res, next) =>{
+    try{
+        const userId = parseInt(req.params.userId);
+        const challenges = await getUserChallenges(userId); // 서비스 호출
+
+        res.status(200).json({data: challenges});
+    } catch(error){
+        next(error);
+    }
+}

@@ -6,3 +6,9 @@
       missionId : parseInt(missionId)
     };
   };
+
+  export const responseFromChallenges = (challenges) => {
+    return {
+      data: challenges,
+    };
+  };
