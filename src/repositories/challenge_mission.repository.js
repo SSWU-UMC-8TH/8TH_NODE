@@ -1,4 +1,6 @@
-import { prisma } from "../db.config.js";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 // 미션 중복 도전 여부 확인
 export const isAlreadyChallenging = async (userId, missionId) => {

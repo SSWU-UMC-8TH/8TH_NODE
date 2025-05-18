@@ -6,3 +6,14 @@ export const responseFromReviews = (reviews) => {
     },
   };
 };
+
+// 가게 생성 요청 DTO
+export const bodyToStoreCreateDto = (body) => {
+  const { name, address, description } = body;
+
+  return {
+    name,
+    address,
+    description,
+  };
+};

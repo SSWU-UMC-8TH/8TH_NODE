@@ -1,15 +1,16 @@
-import { prisma } from "../db.config.js";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 // 가게 추가
-export const addStore = async ({ regionId, name, address, score }) => {
-  const store = await prisma.store.create({
+export const addStore = async ({ name, address, description }) => {
+  return await prisma.store.create({
     data: {
       name,
       address,
-      description: `지역 ID: ${regionId}, 점수: ${score}`,
+      description,
     },
   });
-  return store.id;
 };
 
 // 가게 조회

@@ -1,6 +1,18 @@
 import { getMissionsByStore } from "../services/mission.service.js";
-import { getInProgressMissions } from "../services/mission.service.js";
-import { MissionResponseDto, InProgressMissionResponseDto } from "../dtos/mission.dto.js";
+import { getInProgressMissions, createMission } from "../services/mission.service.js";
+import {  MissionCreateDto, MissionResponseDto, InProgressMissionResponseDto } from "../dtos/mission.dto.js";
+
+// 미션 생성 (가게에 추가)
+export const handleMissionCreate = async (req, res, next) => {
+  try {
+    const dto = new MissionCreateDto(req.body);
+    const mission = await createMission(dto);
+    const responseDto = new MissionResponseDto(mission);
+    res.status(200).success({ mission: responseDto });
+  } catch (error) {
+    next(error); // 미들웨어에서 처리
+  }
+};
 
 // 특정 가게의 미션 목록 조회
 export const getStoreMissions = async (req, res) => {

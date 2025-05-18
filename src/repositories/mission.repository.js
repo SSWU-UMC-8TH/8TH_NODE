@@ -1,4 +1,6 @@
-import { prisma } from "../db.config.js";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export const getStoreById = async (storeId) => {
   return await prisma.store.findUnique({
@@ -8,19 +10,14 @@ export const getStoreById = async (storeId) => {
 
 // 미션 추가
 export const addMission = async (missionData) => {
-  const mission = await prisma.mission.create({
+  return await prisma.mission.create({
     data: {
       storeId: missionData.storeId,
       reward: missionData.reward,
-      deadline: missionData.deadline,
+      deadline: new Date(missionData.deadline),
       missionSpec: missionData.missionSpec,
     },
   });
-
-  return {
-    id: mission.id,
-    ...missionData,
-  };
 };
 
 export const getMissionsByStoreId = async (storeId) => {

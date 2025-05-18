@@ -1,5 +1,7 @@
 import { StatusCodes } from "http-status-codes";
-import { listStoreReviews } from "../services/store.service.js";
+import { listStoreReviews, storeCreate } from "../services/store.service.js";
+import { StoreCreateError } from "../errors.js";
+import { bodyToStoreCreateDto } from "../dtos/store.dto.js";
 
 export const handleListStoreReviews = async (req, res, next) => {
   const reviews = await listStoreReviews(
@@ -26,3 +28,18 @@ router.get('/:storeId/missions', async (req, res) => {
 });
 
 export default router;
+
+export const handleStoreCreate = async (req, res, next) => {
+  try {
+    const dto = bodyToStoreCreateDto(req.body);
+
+    // 필수 값 유효성 검사
+    if (!dto.name || !dto.address || dto.description == null) {
+      throw new StoreCreateError("name, address, description은 필수입니다.");
+    }
+    const store = await storeCreate(dto);
+    return res.status(StatusCodes.OK).success(store);
+  } catch (error) {
+    next(error);
+  }
+};

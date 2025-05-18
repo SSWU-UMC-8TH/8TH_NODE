@@ -1,16 +1,17 @@
-import { prisma } from "../db.config.js";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 // 리뷰 추가
-export const addReview = async ({ user_id, store_id, body, score }) => {
-  const review = await prisma.review.create({
+export const addReview = async (reviewData) => {
+  return await prisma.review.create({
     data: {
-      content: body,
-      rating: score,
-      userId: user_id,
-      storeId: store_id,
+      content: reviewData.content,
+      rating: reviewData.rating,    
+      userId: reviewData.userId,       
+      storeId: reviewData.storeId,      
     },
   });
-  return review.id;
 };
 
 // 특정 가게의 리뷰 조회 (cursor 기반 페이징)

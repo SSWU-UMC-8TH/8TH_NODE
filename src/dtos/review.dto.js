@@ -15,3 +15,12 @@ export const responseFromUserReview = (review) => {
 export const responseListFromUserReviews = (reviews) => {
   return reviews.map(responseFromUserReview);
 };
+
+export class ReviewCreateDto {
+  constructor({ content, rating, userId, storeId }) {
+    this.content = content;
+    this.rating = rating;
+    this.userId = userId;
+    this.storeId = storeId;
+  }
+}

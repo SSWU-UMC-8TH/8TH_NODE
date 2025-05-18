@@ -1,4 +1,6 @@
-import { prisma } from "../db.config.js";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 // 사용자 추가
 export const addUser = async (data) => {

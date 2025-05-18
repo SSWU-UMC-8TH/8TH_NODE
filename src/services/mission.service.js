@@ -1,4 +1,15 @@
-import { getMissionsByStoreId, getInProgressMissionsByUserId } from "../repositories/mission.repository.js";
+import { addMission, getMissionsByStoreId, getInProgressMissionsByUserId } from "../repositories/mission.repository.js";
+import { MissionCreateError } from "../errors.js";
+
+// 미션 생성
+export const createMission = async (dto) => {
+  try {
+      const mission = await addMission(dto);
+      return mission;
+    } catch (error) {
+      throw new MissionCreateError("DB에 미션 추가 중 오류 발생", error);
+    }
+};
 
 // 특정 가게의 미션 목록 조회
 export const getMissionsByStore = async (storeId) => {

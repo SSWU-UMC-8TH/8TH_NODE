@@ -1,3 +1,12 @@
+export class MissionCreateDto {
+  constructor({ storeId, missionSpec, reward, deadline }) {
+    this.storeId = storeId;
+    this.missionSpec = missionSpec;
+    this.reward = reward;
+    this.deadline = deadline;
+  }
+}
+
 // 특정 가게의 미션 목록 조회 응답 DTO
 export class MissionResponseDto {
   constructor(missionData) {
