@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import { bodyToChallenge } from "../dtos/challenges.dto.js";
 import { createMissionChallenge } from "../services/challenges.service.js";
 import { getUserChallenges } from "../services/challenges.service.js";
+import { completeUserMission } from "../services/challenges.service.js";
 
 export const handleAddChallenge = async (req, res, next) => {
     try {
@@ -26,3 +27,16 @@ export const handleUserChallengeList = async(req, res, next) =>{
         next(error);
     }
 }
+
+export const handleCompleteChallenge = async(req, res, next) =>{
+    try{
+        const missionId = parseInt(req.params.missionId);
+        const {userId} = req.body;
+
+        const result = await completeUserMission(userId, missionId);
+
+        res.status(200).json({message:"미션 완료 처리 성공", result});
+    } catch(error) {
+        next(error);
+    }
+};

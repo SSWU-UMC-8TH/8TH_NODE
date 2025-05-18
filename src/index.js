@@ -10,7 +10,8 @@ import { handleAddStore } from './controllers/store.controller.js';
 import { handleAddReview, handleShowMyReview } from './controllers/review.controller.js';
 import {handleAddMission} from './controllers/mission.controller.js';
 import { handleShowStoreMission } from './controllers/store.controller.js';
-import { handleUserChallengeList } from './controllers/challenges.controller.js';
+import { handleCompleteChallenge, handleUserChallengeList } from './controllers/challenges.controller.js';
+import { handleAddChallenge } from './controllers/challenges.controller.js';
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.post("/regions/:regionId/stores", handleAddStore);
 app.post("/stores/:storeId/reviews", handleAddReview);
 app.post("/stores/:storeId/missions", handleAddMission);
 app.post("/missions/:missionId/challenges", handleAddChallenge);
+app.post("/missions/:missionId/complete", handleCompleteChallenge)
 
 
 app.listen(port, () => {
