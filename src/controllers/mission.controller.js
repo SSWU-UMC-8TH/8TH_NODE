@@ -9,7 +9,7 @@ export const handleAddMission = async (req, res, next) => {
 
         const result = await createMissionService(storeId, missionData);
 
-        res.status(StatusCodes.CREATED).json({result});
+        res.status(StatusCodes.CREATED).success(result);
     } catch(err){
         next(err);
     }
