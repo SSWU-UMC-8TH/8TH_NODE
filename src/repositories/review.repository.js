@@ -25,16 +25,12 @@ export const getReviewsByUserId = async({userId}) => {
             id:true,
             body:true,
             score:true,
-            createdAt : true,
             store:{
                 select:{
                     name:true,
                     address:true,
                 },
             },
-        },
-        orderBy:{
-            createdAt:"desc",
         },
     });
 
