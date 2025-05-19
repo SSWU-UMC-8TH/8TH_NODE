@@ -15,7 +15,7 @@ export const addUser = async (data) => {
 
 
 // 사용자 정보 얻기 
-export const getUser = async (data) => {
+export const getUser = async (userId) => {
   const user = await prisma.user.findFirstOrThrow({where: {id:userId}})
   return user;
 };
@@ -40,7 +40,11 @@ export const getUserPreferencesByUserId = async(userId) => {
       foodCategory:true, // JOIN 
     },
     where : {userId: userId},
-    orderBy: {foodCategory: "asc"},
+    orderBy:{
+      foodCategory:{
+        name:"asc",
+      }
+    }
   });
 
   return preferences;

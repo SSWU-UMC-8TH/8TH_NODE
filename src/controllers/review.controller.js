@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { bodyToReview } from "../dtos/review.dto.js";
 import { createReviewService } from "../services/review.service.js";
-import { showMyReview } from "../repositories/review.repository.js";
+import { showMyReview } from "../services/review.service.js";
 
 export const handleAddReview = async (req, res, next) => {
     try {

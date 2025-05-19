@@ -2,7 +2,6 @@ import { StatusCodes } from "http-status-codes";
 import { bodyToStore } from "../dtos/store.dto.js";
 import { createStoreService, getStoreMission } from "../services/store.service.js";
 import { listStoreReviews } from "../services/store.service.js";
-import { getStoreMission } from "../services/store.service.js";
 
 export const handleAddStore = async (req, res, next) => {
   console.log("특정 지역에 가게 추가하기를 요청했습니다!");
