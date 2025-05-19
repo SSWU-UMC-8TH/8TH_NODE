@@ -10,7 +10,7 @@ export const handleAddReview = async (req, res, next) => {
 
         const result = await createReviewService(storeId, reviewData);
 
-        res.status(StatusCodes.CREATED).json({result});
+        res.status(StatusCodes.CREATED).success(result);
     } catch(err){
         next(err);
     }
@@ -21,7 +21,7 @@ export const handleShowMyReview = async (req, res, next) => {
         const userId = parseInt(req.params.userId);
         const reviews = await showMyReview(userId);
 
-        res.status(StatusCodes.OK).json({reviews});
+        res.status(StatusCodes.OK).success(reviews);
     } catch(error){
         next(error);
     }

@@ -56,6 +56,17 @@ CREATE TABLE `region` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+INSERT INTO region (name) VALUES
+    ('강남구'),
+    ('성북구'),
+    ('구로구'),
+    ('관악구'),
+    ('송파구'),
+    ('종로구'),
+    ('마포구'),
+    ('서대문구'),
+    ('동작구');
+
 -- CreateTable
 CREATE TABLE `review` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,

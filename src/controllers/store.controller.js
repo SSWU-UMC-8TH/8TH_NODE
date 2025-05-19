@@ -12,7 +12,7 @@ export const handleAddStore = async (req, res, next) => {
     const storeData = bodyToStore(req.body, regionId);
 
     const newStore = await createStoreService(storeData);
-    res.status(StatusCodes.CREATED).json({result:newStore});
+    res.status(StatusCodes.CREATED).success(newStore);
 
   } catch(err) {
     next(err);
