@@ -65,7 +65,7 @@ export const getChallengesByUserId = async(userId) => {
     })
 }
 
-export const isAlreadyCompleted = async(userId, missionId) => {
+export const isAlreadyCompleted = async({userId, missionId}) => {
     const mission = await prisma.userMission.findMany({
         where: {
             userId,
@@ -73,10 +73,10 @@ export const isAlreadyCompleted = async(userId, missionId) => {
             status:"COMPLETE",
         },
     });
-    return !!mission;
+    return mission.length > 0;
 }
 
-export const completeUserMissionStatus= async(userId, missionId)=> {
+export const completeUserMissionStatus= async({userId, missionId})=> {
     const updated = await prisma.userMission.updateMany({
         where:{
             userId,

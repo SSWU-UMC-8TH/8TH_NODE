@@ -31,12 +31,12 @@ export const getUserChallenges = async(userId) => {
 
 }
 
-export const completeUserMission =async(userId, missionId) => {
-  const alreadyCompleted = await isAlreadyCompleted(userId, missionId);
+export const completeUserMission =async({userId, missionId}) => {
+  const alreadyCompleted = await isAlreadyCompleted({userId, missionId});
   if(alreadyCompleted){
     throw new Error("이미 완료된 미션입니다.");
   }
 
-  const result = await completeUserMissionStatus(userId, missionId);
+  const result = await completeUserMissionStatus({userId, missionId});
   return result;
 }

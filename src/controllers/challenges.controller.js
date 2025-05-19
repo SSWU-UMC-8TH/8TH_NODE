@@ -33,7 +33,7 @@ export const handleCompleteChallenge = async(req, res, next) =>{
         const missionId = parseInt(req.params.missionId);
         const {userId} = req.body;
 
-        const result = await completeUserMission(userId, missionId);
+        const result = await completeUserMission({userId, missionId});
 
         res.status(200).success({message:"미션 완료 처리 성공", result});
     } catch(error) {

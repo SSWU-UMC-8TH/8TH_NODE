@@ -53,7 +53,7 @@ app.post("/regions/:regionId/stores", handleAddStore);
 app.post("/stores/:storeId/reviews", handleAddReview);
 app.post("/stores/:storeId/missions", handleAddMission);
 app.post("/missions/:missionId/challenges", handleAddChallenge);
-app.post("/missions/:missionId/complete", handleCompleteChallenge);
+app.patch("/missions/:missionId/complete", handleCompleteChallenge);
 
 app.use((err, req, res, next) => {
   if(res.headersSent) {
