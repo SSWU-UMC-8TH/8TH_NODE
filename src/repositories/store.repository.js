@@ -32,9 +32,6 @@ export const getMissionsByStoreId = async(storeId) => {
         where:{
             storeId:storeId,
         },
-        orderBy:{
-            createdAt:"desc",
-        },
         select:{
             id:true,
             reward:true,

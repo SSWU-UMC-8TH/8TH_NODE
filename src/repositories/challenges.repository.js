@@ -42,9 +42,7 @@ export const getChallengesByUserId = async(userId) => {
             userId:userId,
             status:"IN_PROGRESS",
         },
-        orderBy:{
-            createdAt:"desc",
-        },
+    
         include:{
             mission:{
                 select:{

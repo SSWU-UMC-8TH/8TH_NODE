@@ -44,7 +44,7 @@ export const handleShowStoreMission = async(req, res, next)=> {
     const storeId = parseInt(req.params.storeId);
     const missions = await getStoreMission(storeId);
 
-    res.status(200).json({data:missions});
+    res.status(200).success({data:missions});
 
   }catch(error) {
     next(error);

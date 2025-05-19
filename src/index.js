@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
 
 // GET
 app.get("/users/:userId/reviews", handleShowMyReview);
-app.get("/stores/:stordId/missions", handleShowStoreMission);
+app.get("/stores/:storeId/missions", handleShowStoreMission);
 app.get("/users/:userId/challenges", handleUserChallengeList);
 
 // POST
