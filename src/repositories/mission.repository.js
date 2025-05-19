@@ -1,6 +1,6 @@
 import { prisma } from "../db.config.js";
 
-export const addMission = async ({reward, missionSpec, missionId, deadline}) => {
+export const addMission = async ({reward, missionSpec, storeId, deadline}) => {
     const createdMission = await prisma.mission.create({
         data:{
             storeId, 
