@@ -6,6 +6,7 @@ import {
   getUserPreferencesByUserId,
   setPreference,
 } from "../repositories/user.repository.js";
+import { DuplicateUserEmailError } from "../error.js";
 
 // 프론트에서 보낸 회원가입 요청 데이터를 인자로 받음 
 export const userSignUp = async (data) => {
@@ -22,7 +23,7 @@ export const userSignUp = async (data) => {
   
   // 같은 이메일이 존재한다면 addUser()에서 null을 반환
   if (joinUserId === null) {
-    throw new Error("이미 존재하는 이메일입니다.");
+    throw new DuplicateUserEmailError("이미 존재하는 이메일입니다.", data);
   }
 
   for (const preference of data.preferences) {
