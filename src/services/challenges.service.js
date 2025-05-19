@@ -15,7 +15,7 @@ export const createMissionChallenge = async (userId, missionData) => {
   }
 
   // 중복 도전 여부 확인 
-  const alreadyChallenged = await isAlreadyChallenged(userId, missionId);
+  const alreadyChallenged = await isAlreadyChallenged({userId, missionId});
   if(alreadyChallenged){
     throw new Error("이미 도전 중인 미션입니다.");
   }

@@ -11,7 +11,7 @@ export const handleAddChallenge = async (req, res, next) => {
 
         const result = await createMissionChallenge(challengeData.userId, { missionId: challengeData.missionId });
 
-        res.status(StatusCodes.CREATED).json({result});
+        res.status(StatusCodes.CREATED).success(result);
     } catch(err){
         next(err);
     }
@@ -22,7 +22,7 @@ export const handleUserChallengeList = async(req, res, next) =>{
         const userId = parseInt(req.params.userId);
         const challenges = await getUserChallenges(userId); // 서비스 호출
 
-        res.status(200).json({data: challenges});
+        res.status(200).success(challenges);
     } catch(error){
         next(error);
     }
@@ -35,7 +35,7 @@ export const handleCompleteChallenge = async(req, res, next) =>{
 
         const result = await completeUserMission(userId, missionId);
 
-        res.status(200).json({message:"미션 완료 처리 성공", result});
+        res.status(200).success({message:"미션 완료 처리 성공", result});
     } catch(error) {
         next(error);
     }

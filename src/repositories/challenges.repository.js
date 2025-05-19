@@ -11,7 +11,7 @@ export const addChallenge = async ({userId, missionId}) => {
     return {
         id:createdChallenge.id,
         userId: createdChallenge.userId,
-        missionId: createdChallenge.missionId,
+        missionId: parseInt(createdChallenge.missionId),
         status : createdChallenge.status
     };
 };
@@ -21,6 +21,7 @@ export const isAlreadyChallenged = async({userId, missionId}) => {
         where:{
             userId,
             missionId,
+            status:"IN_PROGRESS",
         },
         select: {id:true},
     });
