@@ -21,6 +21,15 @@ CREATE TABLE `food_category` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+INSERT INTO food_category (name) VALUES
+  ('한식'),
+  ('중식'),
+  ('일식'),
+  ('양식'),
+  ('디저트'),
+  ('카페');
+
+
 -- CreateTable
 CREATE TABLE `user_favor_category` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
