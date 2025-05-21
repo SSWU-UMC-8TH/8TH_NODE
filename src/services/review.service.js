@@ -6,6 +6,7 @@ import { UserNotFoundError, InvalidUserIdFormatError } from "../errors.js";
 import { prisma } from "../db.config.js";
 
 
+// 리뷰 생성 (가게 존재 여부 확인 포함)
 export const createReview = async (storeId, reviewData) => {
     const exists = await checkStoreExists(storeId);
     if (!exists) {

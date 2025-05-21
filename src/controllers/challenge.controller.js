@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import { bodyToChallenge } from "../dtos/challenge.dto.js";
 import { createChallenge, listUserChallenges, completeChallenge } from "../services/challenge.service.js";
 
+// 사용자가 특정 미션에 도전하도록 챌린지를 생성하는 핸들러
 export const handleCreateChallenge = async (req, res) => {
     try {
         const missionId = parseInt(req.params.missionId);
@@ -13,6 +14,7 @@ export const handleCreateChallenge = async (req, res) => {
     }
 };
 
+// 특정 사용자의 미션 목록을 조회하는 핸들러
 export const handleListUserChallenges = async (req, res) => {
     try {
         const userId = parseInt(req.params.userId);
@@ -23,6 +25,7 @@ export const handleListUserChallenges = async (req, res) => {
     }
 };
 
+// 사용자가 도전 중인 미션을 완료 처리하는 핸들러
 export const handleCompleteChallenge = async (req, res, next) => {
     try {
         const challengeId = parseInt(req.params.challengeId);

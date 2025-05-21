@@ -7,6 +7,7 @@ import {
     setPreference,
 } from "../repositories/user.repository.js";
 
+// 사용자 회원가입 처리 (중복 이메일 확인 및 선호 설정 포함)
 export const userSignUp = async (data) => {
     const joinUserId = await addUser({
         email: data.email,

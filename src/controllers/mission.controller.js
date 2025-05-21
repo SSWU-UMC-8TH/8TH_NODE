@@ -3,6 +3,7 @@ import { bodyToMission } from "../dtos/mission.dto.js";
 import { createMission, listStoreMissions } from "../services/mission.service.js";
 import { InvalidStoreIdFormatError } from "../errors.js";
 
+// 특정 가게에 새로운 미션을 등록하는 핸들러
 export const handleCreateMission = async (req, res) => {
     try {
         const storeId = parseInt(req.params.storeId);
@@ -14,7 +15,7 @@ export const handleCreateMission = async (req, res) => {
     }
 };
 
-
+// 특정 가게의 모든 미션 목록을 조회하는 핸들러
 export const handleListStoreMissions = async (req, res, next) => {
     try {
         const storeId = parseInt(req.params.storeId);

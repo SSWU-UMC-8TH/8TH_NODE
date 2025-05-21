@@ -8,6 +8,7 @@ import {
 import { CompletedMissionError, ChallengeNotFoundError } from "../errors.js";
 import { prisma } from "../db.config.js"
 
+// 사용자의 미션 도전을 생성 (중복 도전 및 존재 여부 확인 포함)
 export const createChallenge = async (missionId, userId) => {
     const missionExists = await checkMissionExists(missionId);
     if (!missionExists) {
@@ -23,10 +24,12 @@ export const createChallenge = async (missionId, userId) => {
     return challengeId;
 };
 
+// 특정 사용자의 미션 목록을 조회
 export const listUserChallenges = async (userId) => {
     return await getChallengesByUserId(userId);
 };
 
+// 특정 도전을 완료 처리 (중복 완료 및 존재 여부 확인 포함)
 export const completeChallenge = async (challengeId) => {
     const challenge = await prisma.userMission.findUnique({
         where: { id: challengeId },
