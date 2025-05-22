@@ -51,10 +51,10 @@ export const getUserPreferencesByUserId = async(userId) => {
 }
 
 export const getAllStoreReviews = async (storeId, cursor) => {
-  const reviews = await prisma.userStoreReview.findMany ({
+  const reviews = await prisma.Review.findMany ({
     select :{
       id:true,
-      content:true,
+      body:true,
       store:true,
       user:true,
     },

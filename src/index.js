@@ -6,7 +6,7 @@ import dotenv from "dotenv"
 // dotenv 라이브러리 => .env 파일로부터 환경 변수를 읽어들이고, 이를 process.env.객체를 통해 접근할 수 있도록 하는 역할을 한다. 
 // dotenv.config() 부분이 바로 그 동작을 하는 부분이다. 
 import { handleUserSignUp } from './controllers/user.controller.js';
-import { handleAddStore } from './controllers/store.controller.js';
+import { handleAddStore, handleListStoreReviews } from './controllers/store.controller.js';
 import { handleAddReview, handleShowMyReview } from './controllers/review.controller.js';
 import {handleAddMission} from './controllers/mission.controller.js';
 import { handleShowStoreMission } from './controllers/store.controller.js';
@@ -48,6 +48,7 @@ app.get('/', (req, res) => {
 app.get("/users/:userId/reviews", handleShowMyReview);
 app.get("/stores/:storeId/missions", handleShowStoreMission);
 app.get("/users/:userId/challenges", handleUserChallengeList);
+app.get("/stores/:storeId/reviews",handleListStoreReviews);
 
 // POST
 app.post("/users", handleUserSignUp);
@@ -90,7 +91,14 @@ app.get("/openapi.json", async(req, res, next) => {
   };
 
   const outputFile = "/dev/null"; // 파일 출력은 사용하지 않음 
-  const routes = ["./src/index.js"];
+  const routes = [
+    "./src/index.js",
+    "./src/controllers/user.controller.js",
+    "./src/controllers/store.controller.js",
+    "./src/controllers/challenges.controller.js",
+    "./src/controllers/review.controller.js",
+    "./src/controllers/mission.controller.js"
+  ];
   const doc = {
     info: {
       title: "UMC 8th",
