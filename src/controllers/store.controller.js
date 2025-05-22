@@ -4,6 +4,75 @@ import { createStoreService, getStoreMission } from "../services/store.service.j
 import { listStoreReviews } from "../services/store.service.js";
 
 export const handleAddStore = async (req, res, next) => {
+  /*
+    #swagger.summary = '특정 지역에 가게 추가하기';
+    #swagger.requestBody = {
+      required:true,
+      content:{
+        "application/json":{
+          schema : {
+            type:"object",
+            properties:{
+              name:{type:"string", example:"스타벅스 강남역점"},
+              address:{type:"string", example:"강남구 강남대로 123"},
+              description:{type:"string", example:"24시간 운영하는 매장"}
+            }
+          }
+        }
+      }
+    }
+    #swagger.response[200]={
+      description:"특정 지역에 가게 추가하기 성공 응답",
+      content:{
+        "application/json" : {
+          schema: {
+            type:"object",
+            properties:{
+              resultType: {type:"string", example:"SUCCESS"},
+              error: {type:"object", nullable:true, example:null},
+              success:{
+                type:"object",
+                properties: {
+                  data: {
+                    type:"object",
+                    properties:{
+                      name:{type:"string"},
+                      address:{type:"string"},
+                      description:{type:"string"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #swagger.response[400] = {
+      description:"가게 추가 실패 응답",
+      content: {
+        "application/json" : {
+          schema:{
+            type:"object",
+            properties: {
+              resultType: {type:"string", example:"FAIL"},
+              error: {
+                type:"object",
+                properties:{
+                  errorCode:{type:"string", example:"S001"},
+                  reason:{type:"string", example:"이미 등록된 상점입니다."},
+                  data: {type:"object", example:{}}
+                }
+              },
+              success:{
+                type:"object", nullable:true, example:null
+              }
+            }
+          }
+        }
+      }
+    }
+  */
   console.log("특정 지역에 가게 추가하기를 요청했습니다!");
   console.log("body:", req.body); // 값이 잘 들어오나 확인하기 위한 테스트용
 
@@ -55,6 +124,7 @@ export const handleListStoreReviews = async (req, res, next) => {
         }
       }
     };
+
   */
   try{
     console.log("특정 가게의 리뷰 목록을 요청했습니다.");
