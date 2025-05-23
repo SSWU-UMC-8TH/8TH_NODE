@@ -88,7 +88,7 @@ export const handleAddStore = async (req, res, next) => {
 // 특정 가게의 리뷰 목록을 클라이언트에게 응답해주는 API 핸들러 
 export const handleListStoreReviews = async (req, res, next) => {
   /*
-    #swagger.summary = '상점 리뷰 목록 조회 API';
+    #swagger.summary = '상점 리뷰 목록 조회';
     #swagger.responses[200] = {
       description: "상점 리뷰 목록 조회 성공 응답",
       content: {
@@ -188,6 +188,78 @@ export const handleListStoreReviews = async (req, res, next) => {
 
 // 특정 가게의 미션 목록을 클라이언트에게 응답해주는 API 핸들러 
 export const handleShowStoreMission = async(req, res, next)=> {
+  /*
+    #swagger.summary = "특정 가게의 미션 보여주기",
+    #swagger.responses[200] = {
+        description:"특정 가게의 미션 보여주기 성공 응답",
+        content:{
+            "application/json":{
+                schema: {
+                    type:"object", 
+                    properties:{
+                        resultType:{type:"string", nullable:true, example:"SUCCESS"},
+                        error: {type:"object", nullable: true, example:null},
+                        success: {
+                            type:"object", 
+                            properties: {
+                               data:{
+                                type:"object",
+                                properties: {
+                                  data: {
+                                    type:"array",
+                                    items: {
+                                      type: "object",
+                                      properties: {
+                                        id: { type: "number", example: 1 },
+                                        reward: { type: "number", example: 500 },
+                                        deadline: {
+                                          type: "string",
+                                          format: "date-time",
+                                          example: "2025-05-30T00:00:00.000Z"
+                                        },
+                                        missionSpec: {
+                                          type: "string",
+                                          example: "스타벅스에서 적립하기"
+                                        }
+                                      }    
+                                    } 
+                                  }
+                                }
+                              }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    #swagger.responses[400] = {
+        description :"가게에 리뷰 추가하기 실패 응답",
+        content: {
+            "application/json" : {
+                schema : {
+                    type:"object", 
+                    properties: {
+                        resultType: {type:"string", example:"FAIL"},
+                        error :{
+                            type:"object",
+                            properties: {
+                                errorCode:{type:"string", example:"U001"},
+                                reason : {type:"string"},
+                                data:{type:"object"}
+                            }
+                        },
+                        success: {
+                            type:"object", 
+                            nullable:true, 
+                            example:null
+                        }
+                    }
+                }   
+            }
+        }
+    };
+    */
   try{
     console.log("특정 가게의 미션 목록을 요청했습니다.");
 
