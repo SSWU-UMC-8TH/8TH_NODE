@@ -145,6 +145,30 @@ export const handleListStoreReviews = async (req, res, next) => {
         }
       }
     };
+    #swagger.responses[400] = {
+      description:"상점 리뷰 목록 조회 실패",
+      content:{
+        "application/json" : {
+          schema:{
+            type:"object",
+            properties:{
+              resultType:{type:"string", example:"FAIL"},
+              error:{
+                type:"object",
+                properties:{
+                  errorCode: {type:"string", example:"U001"},
+                  reason:{type:"string", example:"해당 상점이 존재하지 않습니다."},
+                  data: {type:"object", example:{}}
+                }
+              },
+              success:{
+                type:"object", nullable:true, example:null
+              }
+            }
+          }
+        }
+      }
+    }
 
   */
   try{
