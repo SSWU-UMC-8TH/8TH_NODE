@@ -101,19 +101,43 @@ export const handleListStoreReviews = async (req, res, next) => {
               success: {
                 type: "object",
                 properties: {
-                  data: {
-                    type: "array",
+                  data:{
+                    type:"array", 
                     items: {
-                      type: "object",
-                      properties: {
-                        id: { type: "number" },
-                        store: { type: "object", properties: { id: { type: "number" }, name: { type: "string" } } },
-                        user: { type: "object", properties: { id: { type: "number" }, email: { type: "string" }, name: { type: "string" } } },
-                        content: { type: "string" }
+                      type:"object",
+                      properties:{
+                        id:{type:"number", example:1},
+                        body:{type:"string", example:"자리가 많고, 조용해서 좋아요~"},
+                        store:{
+                          type:"object", 
+                          properties:{
+                            id:{type:"number"},
+                            name:{type:"string"},
+                            address:{type:"string"},
+                            regionId:{type:"number"}
+                          }
+                        },
+                        user:{
+                          type:"object",
+                          properties:{
+                            id:{type:"number"},
+                            email:{type:"string"},
+                            name:{type:"string"},
+                            gender:{type:"string", format:"date-time"},
+                            address:{type:"string"},
+                            detailAddress:{type:"string"},
+                            phoneNumber:{type:"string"}
+                          }
+                        }
                       }
                     }
                   },
-                  pagination: { type: "object", properties: { cursor: { type: "number", nullable: true } }}
+                  pagination:{
+                    type:"object",
+                    properties:{
+                      cursor:{type:"number", nullable:true, example:3}
+                    }
+                  }
                 }
               }
             }
@@ -131,7 +155,7 @@ export const handleListStoreReviews = async (req, res, next) => {
       typeof req.query.cursor === "string" ? parseInt(req.query.cursor) :0
     );
 
-    res.status(200).success({data:reviews});
+    res.status(200).success(reviews);
 
   } catch(error){
     next(error);
