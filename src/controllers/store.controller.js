@@ -21,7 +21,7 @@ export const handleAddStore = async (req, res, next) => {
         }
       }
     }
-    #swagger.response[200]={
+    #swagger.responses[200]={
       description:"특정 지역에 가게 추가하기 성공 응답",
       content:{
         "application/json" : {
@@ -33,14 +33,11 @@ export const handleAddStore = async (req, res, next) => {
               success:{
                 type:"object",
                 properties: {
-                  data: {
-                    type:"object",
-                    properties:{
-                      name:{type:"string"},
-                      address:{type:"string"},
-                      description:{type:"string"}
-                    }
-                  }
+                  id: { type: "number", example: 8 },
+                  name: { type: "string", example: "스타벅스 강남역점" },
+                  address: { type: "string", example: "강남구 강남대로 123" },
+                  description: { type: "string", example: "24시간 운영하는 매장" },
+                  regionId: { type: "number", example: 7 }
                 }
               }
             }
@@ -48,7 +45,7 @@ export const handleAddStore = async (req, res, next) => {
         }
       }
     }
-    #swagger.response[400] = {
+    #swagger.responses[400] = {
       description:"가게 추가 실패 응답",
       content: {
         "application/json" : {
@@ -59,7 +56,7 @@ export const handleAddStore = async (req, res, next) => {
               error: {
                 type:"object",
                 properties:{
-                  errorCode:{type:"string", example:"S001"},
+                  errorCode:{type:"string", example:"U001"},
                   reason:{type:"string", example:"이미 등록된 상점입니다."},
                   data: {type:"object", example:{}}
                 }
