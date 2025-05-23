@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { bodyToChallenge } from "../dtos/challenge.dto.js";
 import { createChallenge, listUserChallenges, completeChallenge } from "../services/challenge.service.js";
+import { InvalidUserIdFormatError } from "../errors.js";
 
 // 사용자가 특정 미션에 도전하도록 챌린지를 생성하는 핸들러
 export const handleCreateChallenge = async (req, res) => {
@@ -15,9 +16,9 @@ export const handleCreateChallenge = async (req, res) => {
 };
 
 // 특정 사용자의 미션 목록을 조회하는 핸들러
-export const handleListUserChallenges = async (req, res) => {
+export const handleListUserChallenges = async (req, res, next) => {
     /*
-#swagger.summary = '사용자가 진행 중인 미션 목록 리뷰 목록 API';
+#swagger.summary = '사용자가 진행 중인 미션 목록 API';
 #swagger.responses[200] = {
   description: "사용자 미션 목록 조회 성공 응답",
   content: {
@@ -124,10 +125,13 @@ export const handleListUserChallenges = async (req, res) => {
 */
     try {
         const userId = parseInt(req.params.userId);
+        if (isNaN(userId)) {
+            throw new InvalidUserIdFormatError();
+        }
         const challenges = await listUserChallenges(userId);
         res.status(StatusCodes.OK).success(challenges);
     } catch (err) {
-        res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
+        next(err);
     }
 };
 
