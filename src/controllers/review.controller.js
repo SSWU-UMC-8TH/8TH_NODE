@@ -51,6 +51,28 @@ export const handleShowMyReview = async (req, res, next) => {
             }
         }
     };
+    #swagger.responses[400] = {
+        description : "시용자가 작성한 리뷰 보여주기 실패 응답",
+        content : {
+            "application/json": {
+                schema: {
+                    type:"object", 
+                    properties:{
+                        resultType:{type:"string", example:"FAIL"},
+                        error: {
+                            type:"object",
+                            properties: {
+                                errorCode: {type:"string", example:"U001"},
+                                reason :{type:"string", example:"사용자가 존재하지 않습니다."},
+                                data: { type:"object", example:{}}
+                            }
+                        },
+                        success: {type:"object", nullable:true, example:null}
+                    }
+                }
+            }
+        }
+    }
     */
     try{
         const userId = parseInt(req.params.userId);
