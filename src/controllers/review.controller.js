@@ -52,13 +52,16 @@ export const handleListStoreReviews = async (req, res, next) => {
   }
 };
 */
+  const storeId = parseInt(req.params.storeId);
+  const cursor = typeof req.query.cursor === "string" ? parseInt(req.query.cursor) : 0;
+
+  const reviews = await listStoreReviews(storeId, cursor);
   res.status(StatusCodes.OK).success(reviews);
 };
 
 // 특정 사용자가 작성한 리뷰 목록을 조회하는 핸들러
 export const handleListUserReviews = async (req, res, next) => {
-  try {
-    /*
+  /*
 #swagger.summary = '사용자가 작성한 리뷰 목록 API';
 #swagger.responses[200] = {
   description: "사용자 리뷰 목록 조회 성공 응답",
@@ -137,6 +140,15 @@ export const handleListUserReviews = async (req, res, next) => {
       }
     };
 */
+  try {
+    const userId = parseInt(req.params.userId);
+    // 유효성 확인
+    if (isNaN(userId)) {
+      throw new InvalidUserIdFormatError();
+    }
+    const cursor = typeof req.query.cursor === "string" ? parseInt(req.query.cursor) : 0;
+
+    const reviews = await listUserReviews(userId, cursor);
     res.status(StatusCodes.OK).success(reviews);
   } catch (err) {
     next(err);
