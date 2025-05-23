@@ -173,6 +173,72 @@ export const handleUserChallengeList = async(req, res, next) =>{
 }
 
 export const handleCompleteChallenge = async(req, res, next) =>{
+    /*
+    #swagger.summary = '도전중인 미션 완료로 변경하기';
+    #swagger.requestBody = {
+      required:true,
+      content:{
+        "application/json":{
+          schema : {
+            type:"object",
+            properties:{
+                userId:{type:"number", example:2},
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[200]={
+      description:"도전중인 미션 완료로 변경하기 성공 응답",
+      content:{
+        "application/json" : {
+          schema: {
+            type:"object",
+            properties:{
+              resultType: {type:"string", example:"SUCCESS"},
+              error: {type:"object", nullable:true, example:null},
+              success:{
+                type:"object",
+                properties: {
+                  message:{type:"string", example:"미션 완료 처리 성공"},
+                  result:{
+                    type:"object",
+                    properties:{
+                        count:{type:"number", example:1}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[400] = {
+      description:"도전중인 미션 완료로 변경하기 실패 응답",
+      content: {
+        "application/json" : {
+          schema:{
+            type:"object",
+            properties: {
+              resultType: {type:"string", example:"FAIL"},
+              error: {
+                type:"object",
+                properties:{
+                  errorCode:{type:"string", example:"U001"},
+                  reason:{type:"string", example:"이미 등록된 상점입니다."},
+                  data: {type:"object", example:{}}
+                }
+              },
+              success:{
+                type:"object", nullable:true, example:null
+              }
+            }
+          }
+        }
+      }
+    }
+  */
     try{
         const missionId = parseInt(req.params.missionId);
         const {userId} = req.body;
