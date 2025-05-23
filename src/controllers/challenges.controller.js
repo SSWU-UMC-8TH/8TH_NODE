@@ -5,6 +5,71 @@ import { getUserChallenges } from "../services/challenges.service.js";
 import { completeUserMission } from "../services/challenges.service.js";
 
 export const handleAddChallenge = async (req, res, next) => {
+    /*
+    #swagger.summary = '도전중인 미션 추가하기';
+    #swagger.requestBody = {
+      required:true,
+      content:{
+        "application/json":{
+          schema : {
+            type:"object",
+            properties:{
+                userId:{type:"number", example:2},
+                missionId:{type:"number", example:3},
+                status:{type:"string", example:"IN_PROGRESS"}
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[200]={
+      description:"도전중인 미션 추가하기 성공 응답",
+      content:{
+        "application/json" : {
+          schema: {
+            type:"object",
+            properties:{
+              resultType: {type:"string", example:"SUCCESS"},
+              error: {type:"object", nullable:true, example:null},
+              success:{
+                type:"object",
+                properties: {
+                  id:{type:"number", example:1},
+                  userId:{type:"number", example:1},
+                  missionId:{type:"number",example:1},
+                  status:{type:"string", example:"IN_PROGRESS"}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #swagger.responses[400] = {
+      description:"도전중인 미션 추가하기 실패 응답",
+      content: {
+        "application/json" : {
+          schema:{
+            type:"object",
+            properties: {
+              resultType: {type:"string", example:"FAIL"},
+              error: {
+                type:"object",
+                properties:{
+                  errorCode:{type:"string", example:"U001"},
+                  reason:{type:"string", example:"이미 등록된 상점입니다."},
+                  data: {type:"object", example:{}}
+                }
+              },
+              success:{
+                type:"object", nullable:true, example:null
+              }
+            }
+          }
+        }
+      }
+    }
+  */
     try {
         const missionId = parseInt(req.params.missionId);
         const challengeData = bodyToChallenge(req.body, missionId);
