@@ -18,6 +18,85 @@ export const handleAddChallenge = async (req, res, next) => {
 };
 
 export const handleUserChallengeList = async(req, res, next) =>{
+    /*
+    #swagger.summary = "사용자가 도전중인 미션 보여주기",
+    #swagger.responses[200] = {
+        description:"사용자가 도전중인 미션 보여주기 성공 응답",
+        content:{
+            "application/json":{
+                schema: {
+                    type:"object", 
+                    properties:{
+                        resultType:{type:"string", nullable:true, example:"SUCCESS"},
+                        error: {type:"object", nullable: true, example:null},
+                        success: {
+                            type:"object", 
+                            properties: {
+                                data: {
+                                    type:"array",
+                                    items: {
+                                      type: "object",
+                                      properties: {
+                                        id:{type:"number", example:2},
+                                        userId:{type:"number", example:2},
+                                        missionId:{type:"number", example:3},
+                                        status: {type:"string", example:"IN_PROGRESS"},
+                                        mission: {
+                                            type:"object",
+                                            properties:{
+                                                id:{type:"number", example:3},
+                                                reward:{type:"number", example:500},
+                                                deadline:{type:"string", format:"date-time", example:"2025-05-24T00:00:00.000Z"},
+                                                missionSpec: {type:"string", example:"단팥빵 포장하기"},
+                                                store: {
+                                                    type:"object",
+                                                    properties:{
+                                                        id:{type:"number", example:2},
+                                                        name:{type:"string", example:"홍팥집"},
+                                                        address: {type:"string", example:"강남구 남부순환로359길 31 1층"}
+                                                    }
+                                                }
+                                            }
+                                        }
+                                      }    
+                                    } 
+                                  }
+                                }
+                              }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    #swagger.responses[400] = {
+        description :"사용자가 도전중인 미션 보여주기 실패 응답",
+        content: {
+            "application/json" : {
+                schema : {
+                    type:"object", 
+                    properties: {
+                        resultType: {type:"string", example:"FAIL"},
+                        error :{
+                            type:"object",
+                            properties: {
+                                errorCode:{type:"string", example:"U001"},
+                                reason : {type:"string"},
+                                data:{type:"object"}
+                            }
+                        },
+                        success: {
+                            type:"object", 
+                            nullable:true, 
+                            example:null
+                        }
+                    }
+                }   
+            }
+        }
+    };
+    */
     try{
         const userId = parseInt(req.params.userId);
         const challenges = await getUserChallenges(userId); // 서비스 호출
