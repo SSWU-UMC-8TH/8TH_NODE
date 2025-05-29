@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { prisma } from "./db.config.js";
-
+import { Strategy as KakaoStrategy } from "passport-kakao";
 dotenv.config();
 
 export const googleStrategy = new GoogleStrategy(
@@ -46,3 +46,23 @@ const googleVerify = async (profile) => {
 
     return {id : created.id, email: created.email, name: created.name};
 };
+
+export const kakaoStrategy = new KakaoStrategy(
+    {
+        clientID: process.env.KAKAO_CLIENT_ID,
+        callbackURL : process.env.KAKAO_CALLBACK_URL,
+    },
+    async (accessToken, refreshToken, profile, done) => {
+        try{
+            const user={
+                id:profile.id,
+                provider:"kakao",
+                nickname: profile.username || profile.displayName,
+                email:profile._json?.kakao_account?.email || null,
+            };
+            return done(null, user);
+        } catch(err){
+            return done(err);
+        }
+    }
+);

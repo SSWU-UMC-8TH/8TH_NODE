@@ -19,6 +19,7 @@ import session from "express-session";
 import passport from "passport";
 import { googleStrategy } from "./auth.config.js";
 import { prisma } from "./db.config.js";
+import { kakaoStrategy } from './auth.config.js';
 
 dotenv.config();
 const app = express();
@@ -46,6 +47,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(googleStrategy);
+passport.use("kakao", kakaoStrategy);
 passport.serializeUser((user, done) => done(null, user)); // Session에 사용자 정보 저장장
 passport.deserializeUser((user, done) => done(null, user)); // Session에서 정보를 가져올 때 
 
@@ -126,6 +128,16 @@ app.get(
   (req, res) => res.redirect("/")
 );
 
+// 카카오 로그인 
+app.get("/oauth2/login/kakao", passport.authenticate("kakao"));
+app.get(
+  "/oauth2/callback/kakao",
+  passport.authenticate("kakao", {
+    failureRedirect:"/oauth2/login/kakao",
+    failureMessage:true,
+  }),
+  (req, res) => res.redirect("/")
+);
 
 app.get("/openapi.json", async(req, res, next) => {
   // #swagger.ignore = true
