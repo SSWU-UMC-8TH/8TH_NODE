@@ -51,6 +51,10 @@ export const kakaoStrategy = new KakaoStrategy(
     {
         clientID: process.env.KAKAO_CLIENT_ID,
         callbackURL : process.env.KAKAO_CALLBACK_URL,
+        scope:['profile_nickname', "account_email"],
+        customParams: {
+            prompt: 'consent'  // ✅ 동의창 무조건 다시 보여줌
+        }
     },
     async (accessToken, refreshToken, profile, done) => {
         try{
