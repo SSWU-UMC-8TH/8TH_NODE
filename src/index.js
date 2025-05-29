@@ -14,11 +14,41 @@ import { handleCompleteChallenge, handleUserChallengeList } from './controllers/
 import { handleAddChallenge } from './controllers/challenges.controller.js';
 import swaggerAutogen from 'swagger-autogen';
 import swaggerUiExpress from "swagger-ui-express";
+import { PrismaSessionStore } from "@quixo3/prisma-session-store";
+import session from "express-session";
+import passport from "passport";
+import { googleStrategy } from "./auth.config.js";
+import { prisma } from "./db.config.js";
 
 dotenv.config();
-
-const app = express()
+const app = express();
 const port = process.env.PORT;
+
+// sid는 프론트엔드에 저장하고, 이에 연결되는 사용자 데이터는 store를 통해 Prisma로 연결된 우리의 MySQL DB에 저장
+app.use(
+  session({
+    cookie: {
+      maxAge: 7 * 24 * 60 * 60 * 1000, // ms
+    },
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.EXPRESS_SESSION_SECRET,
+    store: new PrismaSessionStore(prisma, {
+      checkPeriod: 2 * 60 * 1000, // ms
+      dbRecordIdIsSessionId: true,
+      dbRecordIdFunction: undefined,
+    }),
+  })
+);
+
+app.use(passport.initialize());
+// 일치하는 Session이 있다면 사용자 데이터 가져와 req.user에 넣어주게 됨 
+app.use(passport.session());
+
+passport.use(googleStrategy);
+passport.serializeUser((user, done) => done(null, user)); // Session에 사용자 정보 저장장
+passport.deserializeUser((user, done) => done(null, user)); // Session에서 정보를 가져올 때 
+
 
 app.use((req, res, next) => {
   res.success = (success) => {
@@ -41,7 +71,9 @@ app.use(express.json()); // request의 본문을 json으로 해석할 수 있도
 app.use(express.urlencoded({extended:false})); // 단순 객체 문자열 형태로 본문 데이터 해석석
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  // #swagger.ignore = true
+  console.log(req.user);
+  res.send('Hello World!');
 });
 
 // GET
@@ -82,6 +114,19 @@ app.use(
   })
 );
 
+
+// 구글 로그인
+app.get("/oauth2/login/google", passport.authenticate("google"));
+app.get(
+  "/oauth2/callback/google",
+  passport.authenticate("google", {
+    failureRedirect: "/oauth2/login/google",
+    failureMessage: true,
+  }),
+  (req, res) => res.redirect("/")
+);
+
+
 app.get("/openapi.json", async(req, res, next) => {
   // #swagger.ignore = true
   const options = {
@@ -111,6 +156,7 @@ app.get("/openapi.json", async(req, res, next) => {
   res.json(result? result.data : null);
 });
 
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
-})
+});

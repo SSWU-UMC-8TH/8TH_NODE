@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "./node_modules/@prisma/client"
 }
 
 datasource db {
@@ -117,4 +116,14 @@ model UserMission {
 
   @@unique([userId, missionId]) // 한 유저가 동일 미션에 여러 번 도전 못 하게 
   @@map("user_mission")
+}
+
+// Session 테이블 
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String   @db.VarChar(512)
+  expiresAt DateTime @map("expires_at")
+
+  @@map("session")
 }
