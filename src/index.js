@@ -8,12 +8,42 @@ import { handleCreateChallenge, handleListUserChallenges, handleCompleteChalleng
 import { handleCreateReview, handleListStoreReviews, handleListUserReviews } from "./controllers/review.controller.js";
 import swaggerAutogen from "swagger-autogen";
 import swaggerUiExpress from "swagger-ui-express";
+import { PrismaSessionStore } from "@quixo3/prisma-session-store";
+import session from "express-session";
+import passport from "passport";
+import { googleStrategy } from "./auth.config.js";
+import { prisma } from "./db.config.js";
 
 
 dotenv.config();
 
+passport.use(googleStrategy);
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((user, done) => done(null, user));
+
 const app = express();
 const port = process.env.PORT;
+
+// 세션
+app.use(
+    session({
+        cookie: {
+            maxAge: 7 * 24 * 60 * 60 * 1000, // ms
+        },
+        resave: false,
+        saveUninitialized: false,
+        secret: process.env.EXPRESS_SESSION_SECRET,
+        store: new PrismaSessionStore(prisma, {
+            checkPeriod: 2 * 60 * 1000, // ms
+            dbRecordIdIsSessionId: true,
+            dbRecordIdFunction: undefined,
+        }),
+    })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // 공통 응답을 사용할 수 있는 헬퍼 함수 등록
 app.use((req, res, next) => {
@@ -47,6 +77,16 @@ app.use(
     })
 );
 
+app.get("/oauth2/login/google", passport.authenticate("google"));
+app.get(
+    "/oauth2/callback/google",
+    passport.authenticate("google", {
+        failureRedirect: "/oauth2/login/google",
+        failureMessage: true,
+    }),
+    (req, res) => res.redirect("/")
+);
+
 app.get("/openapi.json", async (req, res, next) => {
     // #swagger.ignore = true
     const options = {
@@ -69,6 +109,8 @@ app.get("/openapi.json", async (req, res, next) => {
 });
 
 app.get("/", (req, res) => {
+    // #swagger.ignore = true
+    console.log(req.user);
     res.send("Hello World!");
 });
 
