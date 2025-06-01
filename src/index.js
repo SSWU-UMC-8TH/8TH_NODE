@@ -12,13 +12,16 @@ import { getStoreMissions, getUserInProgressMissions } from './controllers/missi
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import session from "express-session";
 import passport from "passport";
+import userRoutes from "./routes/user.route.js";
 import { googleStrategy } from "./auth.config.js";
 import { PrismaClient } from "@prisma/client";
+import { kakaoStrategy } from "./auth.config.js";
 
 const prisma = new PrismaClient();
 
 dotenv.config();
 
+passport.use(kakaoStrategy);
 passport.use(googleStrategy);
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
@@ -75,6 +78,17 @@ app.use(
   })
 );
 
+app.get("/oauth2/login/kakao", passport.authenticate("kakao"));
+
+app.get(
+  "/oauth2/callback/kakao",
+  passport.authenticate("kakao", {
+    failureRedirect: "/oauth2/login/kakao",
+    failureMessage: true,
+  }),
+  (req, res) => res.redirect("/")
+);
+
 app.get("/openapi.json", async (req, res, next) => {
   // #swagger.ignore = true
   const options = {
@@ -100,7 +114,7 @@ app.get("/", (req, res) => {
   console.log(req.user);
   res.send("Hello World!");
 });
-
+app.use("/users", userRoutes);
 app.post("/api/v1/users/signup", handleUserSignUp);
 app.get("/api/v1/challenge-missions", handleChallengeMission);
 

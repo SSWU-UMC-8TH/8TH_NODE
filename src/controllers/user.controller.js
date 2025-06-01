@@ -1,6 +1,37 @@
 import { StatusCodes } from "http-status-codes";
 import { bodyToUser } from "../dtos/user.dto.js";
 import { userSignUp } from "../services/user.service.js";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+export const updateMyInfo = async (req, res) => {
+  const userId = parseInt(req.body.id);  // 로그인한 사용자의 ID
+  
+  try {
+    console.log("req.user 확인:", req.user);
+
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        name: req.body.name,
+        gender: req.body.gender,
+        birth: new Date(req.body.birth),
+        address: req.body.address,
+        detailAddress: req.body.detailAddress,
+        phoneNumber: req.body.phoneNumber,
+      },
+    });
+
+    return res.json({
+      message: "사용자 정보가 성공적으로 수정되었습니다.",
+      user: updatedUser,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: "사용자 정보 수정 중 오류 발생" });
+  }
+};
+
 
 export const handleUserSignUp = async (req, res, next) => {
   console.log("회원가입을 요청했습니다!");
