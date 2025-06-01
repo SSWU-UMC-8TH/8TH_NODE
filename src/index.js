@@ -1,7 +1,7 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import { handleUserSignUp } from "./controllers/user.controller.js";
+import { handleUserSignUp, handleUpdateMyInfo } from "./controllers/user.controller.js";
 import { handleCreateStore } from "./controllers/store.controller.js";
 import { handleCreateMission, handleListStoreMissions } from "./controllers/mission.controller.js";
 import { handleCreateChallenge, handleListUserChallenges, handleCompleteChallenge } from "./controllers/challenge.controller.js";
@@ -77,11 +77,23 @@ app.use(
     })
 );
 
+// 구글 로그인
 app.get("/oauth2/login/google", passport.authenticate("google"));
 app.get(
     "/oauth2/callback/google",
     passport.authenticate("google", {
         failureRedirect: "/oauth2/login/google",
+        failureMessage: true,
+    }),
+    (req, res) => res.redirect("/")
+);
+
+// 카카오 로그인
+app.get("/oauth2/login/kakao", passport.authenticate("kakao"));
+app.get(
+    "/oauth2/callback/kakao",
+    passport.authenticate("kakao", {
+        failureRedirect: "/oauth2/login/kakao",
         failureMessage: true,
     }),
     (req, res) => res.redirect("/")
@@ -120,12 +132,13 @@ app.get("/api/v1/stores/:storeId/missions", handleListStoreMissions);   // 특�
 app.get("/api/v1/users/:userId/challenges", handleListUserChallenges);  //  내가 진행 중인 미션 목록
 
 app.patch("/api/v1/challenges/:challengeId/complete", handleCompleteChallenge); // 내가 진행 중인 미션을 진행 완료로 바꾸기
+app.patch("/api/v1/users/me", handleUpdateMyInfo);  // 사용자 정보 수정
 
-app.post("/api/v1/users/signup", handleUserSignUp);
-app.post("/api/v1/stores", handleCreateStore);
-app.post("/api/v1/stores/:storeId/reviews", handleCreateReview);
-app.post("/api/v1/stores/:storeId/missions", handleCreateMission);
-app.post("/api/v1/missions/:missionId/challenges", handleCreateChallenge);
+app.post("/api/v1/users/signup", handleUserSignUp);     // 회원가입
+app.post("/api/v1/stores", handleCreateStore);  // 새로운 가게(store) 등록
+app.post("/api/v1/stores/:storeId/reviews", handleCreateReview);    // 특정 가게에 대한 리뷰 작성
+app.post("/api/v1/stores/:storeId/missions", handleCreateMission);  // 특정 가게에 새로운 미션 등록
+app.post("/api/v1/missions/:missionId/challenges", handleCreateChallenge);  // 사용자가 특정 미션에 도전하도록 챌린지 생성
 
 // 전역 오류를 처리하기 위한 미들웨어
 app.use((err, req, res, next) => {
