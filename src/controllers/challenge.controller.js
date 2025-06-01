@@ -6,7 +6,7 @@ import { createChallenge, listUserChallenges, completeChallenge } from "../servi
 export const handleCreateChallenge = async (req, res) => {
     try {
         const missionId = parseInt(req.params.missionId);
-        const { userId } = bodyToChallenge(req.body);
+        const userId = req.user.id;
         const id = await createChallenge(missionId, userId);
         res.status(StatusCodes.CREATED).json({ id });
     } catch (err) {
@@ -17,7 +17,7 @@ export const handleCreateChallenge = async (req, res) => {
 // 특정 사용자의 미션 목록을 조회하는 핸들러
 export const handleListUserChallenges = async (req, res) => {
     try {
-        const userId = parseInt(req.params.userId);
+        const userId = req.user.id;
         const challenges = await listUserChallenges(userId);
         res.status(StatusCodes.OK).success(challenges);
     } catch (err) {
